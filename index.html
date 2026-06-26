@@ -35,7 +35,7 @@
             display: grid;
             grid-template-columns: auto auto 1fr auto;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
             padding: 15px 4%;
             background: rgba(20, 15, 20, 0.4);
             backdrop-filter: blur(16px);
@@ -139,6 +139,7 @@
             border: none;
             cursor: pointer;
             transition: all 0.25s ease;
+            white-space: nowrap;
         }
 
         .btn-upload { background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%); }
@@ -305,6 +306,7 @@
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);
             z-index: 1000; justify-content: center; align-items: center;
+            padding: 15px;
         }
         .modal-content {
             background: rgba(25, 15, 20, 0.95); border: 1px solid #ffb6c1;
@@ -343,7 +345,7 @@
         .chat-messages { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
         
         .message {
-            background: rgba(255,255,255,0.07); padding: 10px 14px; border-radius: 10px; max-width: 80%; width: fit-content; font-size: 0.85rem; position: relative;
+            background: rgba(255,255,255,0.07); padding: 10px 14px; border-radius: 10px; max-width: 85%; width: fit-content; font-size: 0.85rem; position: relative;
         }
         .message .meta { font-size: 0.7rem; color: #ffb6c1; margin-bottom: 3px; font-weight: 600; }
         .message-actions {
@@ -355,15 +357,52 @@
         .chat-footer { padding: 15px; display: flex; gap: 10px; background: rgba(0,0,0,0.2); align-items: center; }
         .chat-mask {
             position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(15,10,15,0.9);
-            display: flex; justify-content: center; align-items: center; color: #ffb6c1; font-weight: 600; z-index: 5; text-align: center;
+            display: flex; justify-content: center; align-items: center; color: #ffb6c1; font-weight: 600; z-index: 5; text-align: center; padding: 20px;
         }
 
-        .media-preview-img { max-width: 200px; max-height: 150px; border-radius: 6px; margin-top: 5px; display: block; }
-        .media-preview-vid { max-width: 260px; border-radius: 6px; margin-top: 5px; display: block; }
+        .media-preview-img { max-width: 100%; max-height: 150px; border-radius: 6px; margin-top: 5px; display: block; }
+        .media-preview-vid { max-width: 100%; max-height: 200px; border-radius: 6px; margin-top: 5px; display: block; }
 
+        /* --- MOBILE & RESPONSIVE BREAKPOINTS --- */
         @media(max-width: 900px) {
-            header { grid-template-columns: 1fr; justify-items: center; }
-            .chat-system-grid { grid-template-columns: 1fr; }
+            header {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                justify-items: center;
+                text-align: center;
+                padding: 15px;
+            }
+            .search-wrapper {
+                max-width: 100%;
+                order: 3;
+            }
+            .header-actions {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 8px;
+                order: 2;
+            }
+            .btn {
+                padding: 8px 14px;
+                font-size: 0.8rem;
+            }
+            .brand {
+                order: 1;
+            }
+            .chat-system-grid {
+                grid-template-columns: 1fr;
+                height: 600px;
+            }
+            .lobby-sidebar {
+                height: 160px;
+            }
+            .showcase-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+            .showcase-section {
+                padding: 16px;
+            }
         }
     </style>
 </head>
@@ -406,7 +445,7 @@
         
         <section class="showcase-section">
             <div class="section-header">
-                <h2><i class="fa-solid fa-tower-cell"></i> 1. YouTube Channels & Discord Spaces</h2>
+                <h2><i class="fa-solid fa-tower-cell"></i> 2.Partners Youtube Channel</h2>
             </div>
             <div class="showcase-grid" id="cat1Grid">
                 <div class="showcase-card" data-search="youtube channel gorillaxd vfx edits videos">
@@ -466,7 +505,7 @@
 
         <section class="showcase-section">
             <div class="section-header">
-                <h2><i class="fa-solid fa-photo-film"></i> 2. Editing Tut & Best Videos</h2>
+                <h2><i class="fa-solid fa-photo-film"></i> 2.Editing And Best Videos</h2>
             </div>
             <div class="showcase-grid" id="cat2Grid">
                 <div class="showcase-card" data-search="after effect toto ae preset editing tool glow text">
@@ -482,7 +521,23 @@
 
         <section class="showcase-section">
             <div class="section-header">
-                <h2><i class="fa-solid fa-comments"></i> 3. Role-Based Storage Chat System</h2>
+                <h2><i class="fa-solid fa-box-open"></i> 2. Editing Assests , Packs .</h2>
+            </div>
+            <div class="showcase-grid" id="cat4Grid">
+                <div class="showcase-card" data-search="ideas configuration asset pack overlay sakura">
+                    <div class="card-preview"><span class="card-badge">Assets</span><i class="fa-solid fa-lightbulb" style="font-size: 2rem; color: rgba(255,255,255,0.3)"></i></div>
+                    <div class="card-body">
+                        <h3>Sakura Overlay Blueprint Pack</h3>
+                        <p>Conceptual asset graphics built to cleanly frame high-contrast video workflows.</p>
+                        <a href="#" class="card-action-btn">Download Asset Bundle</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="showcase-section">
+            <div class="section-header">
+                <h2><i class="fa-solid fa-comments"></i> 4. Chat</h2>
             </div>
             
             <div class="chat-system-grid">
@@ -519,22 +574,6 @@
                 </div>
             </div>
         </section>
-
-        <section class="showcase-section">
-            <div class="section-header">
-                <h2><i class="fa-solid fa-box-open"></i> 4. My Editing Stuff & Creative Assets</h2>
-            </div>
-            <div class="showcase-grid" id="cat4Grid">
-                <div class="showcase-card" data-search="ideas configuration asset pack overlay sakura">
-                    <div class="card-preview"><span class="card-badge">Assets</span><i class="fa-solid fa-lightbulb" style="font-size: 2rem; color: rgba(255,255,255,0.3)"></i></div>
-                    <div class="card-body">
-                        <h3>Sakura Overlay Blueprint Pack</h3>
-                        <p>Conceptual asset graphics built to cleanly frame high-contrast video workflows.</p>
-                        <a href="#" class="card-action-btn">Download Asset Bundle</a>
-                    </div>
-                </div>
-            </div>
-        </section>
     </div>
 
     <div class="modal" id="authModal">
@@ -542,11 +581,6 @@
             <h3><i class="fa-brands fa-google"></i> Create Profile Settings</h3>
             <input type="text" id="usernameInput" class="modal-input" placeholder="Profile Name">
             <input type="password" id="passwordInput" class="modal-input" placeholder="Password">
-            <select id="roleSelect" class="modal-select">
-                <option value="member">Role: Member</option>
-                <option value="vip">Role: VIP</option>
-                <option value="host">Role: Host</option>
-            </select>
             <div style="display:flex; gap:10px; justify-content:center;">
                 <button class="btn btn-discord" onclick="submitRegistration()">Create Account</button>
                 <button class="btn" style="background:rgba(255,255,255,0.1);" onclick="closeAuthModal()">Cancel</button>
@@ -558,9 +592,9 @@
         <div class="modal-content">
             <h3><i class="fa-solid fa-folder-plus"></i> Add Entry Content</h3>
             <select id="uploadCategory" class="modal-select">
-                <option value="1">Category 1: Channels / Discord</option>
-                <option value="2">Category 2: Editing Tut / Videos</option>
-                <option value="4">Category 4: Editing Stuff</option>
+                <option value="1">2.Partners Youtube Channel</option>
+                <option value="2">2.Editing And Best Videos</option>
+                <option value="4">2. Editing Assests , Packs .</option>
             </select>
             <input type="text" id="uploadTitle" class="modal-input" placeholder="Title">
             <input type="text" id="uploadDesc" class="modal-input" placeholder="Short Description">
@@ -600,7 +634,6 @@
             }
         });
 
-        // Smart asset URL parsing for YouTube thumbnails and cloud storage icons
         function getCardPreviewHTML(link) {
             let bgStyle = "";
             let innerIconHTML = `<i class="fa-solid fa-file-export" style="font-size:2rem; opacity:0.3;"></i>`;
@@ -672,10 +705,10 @@
         function submitRegistration() {
             const user = document.getElementById('usernameInput').value.trim();
             const pass = document.getElementById('passwordInput').value.trim();
-            const role = document.getElementById('roleSelect').value;
             if(!user || !pass) return alert("Forms require valid parameters.");
             
-            currentUser = { username: user, role: role };
+            // Defualts role natively to member to allow structural usage without setup complex options
+            currentUser = { username: user, role: 'member' };
             localStorage.setItem('gorilla_user', JSON.stringify(currentUser));
             closeAuthModal();
             updateAuthUIState();
