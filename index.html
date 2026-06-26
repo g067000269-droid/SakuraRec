@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GorillaXD Showcase Hub</title>
+    <!-- Google Fonts & FontAwesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -16,7 +17,8 @@
         }
 
         body {
-            background: url('https://media0.giphy.com/media/ovWn8N8TVg8hi/giphy.gif') no-repeat center center fixed;
+            /* Updated background GIF */
+            background: url('https://i.pinimg.com/originals/88/15/63/881563d6444b370fa4ceea0c3183bb4c.gif') no-repeat center center fixed;
             background-size: cover;
             color: #fff;
             min-height: 100vh;
@@ -408,6 +410,7 @@
 </head>
 <body>
 
+    <!-- TOP CONTROL PANEL BAR -->
     <header>
         <button class="btn btn-upload" onclick="openUploadModal()"><i class="fa-solid fa-cloud-arrow-up"></i> Upload</button>
         <div class="brand"><i class="fa-solid fa-burst"></i> GORILLA HUB</div>
@@ -418,6 +421,7 @@
         </div>
         
         <div class="header-actions">
+            <!-- Split Option Discord Dropdown Wrapper -->
             <div class="discord-dropdown-wrapper">
                 <button class="btn btn-discord" onclick="toggleDiscordMenu()">
                     <i class="fa-brands fa-discord"></i> Discord Hub <i class="fa-solid fa-caret-down"></i>
@@ -441,13 +445,16 @@
         </div>
     </header>
 
+    <!-- HUB CONTENT PANELS -->
     <div class="main-showcase-container">
         
+        <!-- CATEGORY 1: 2.Partners Youtube Channel -->
         <section class="showcase-section">
             <div class="section-header">
                 <h2><i class="fa-solid fa-tower-cell"></i> 2.Partners Youtube Channel</h2>
             </div>
             <div class="showcase-grid" id="cat1Grid">
+                <!-- GorillaXD (Jungle Effect) -->
                 <div class="showcase-card" data-search="youtube channel gorillaxd vfx edits videos">
                     <div class="card-preview">
                         <div class="fx-canvas fx-jungle"></div>
@@ -461,6 +468,7 @@
                         <a href="https://www.youtube.com/@gorillaxd133" target="_blank" class="card-action-btn">View Channel</a>
                     </div>
                 </div>
+                <!-- Omenvalot (Fire Effect) -->
                 <div class="showcase-card" data-search="youtube channel omenvalot edits cinematic montages">
                     <div class="card-preview">
                         <div class="fx-canvas fx-fire"></div>
@@ -474,6 +482,7 @@
                         <a href="https://www.youtube.com/@Omenvalot" target="_blank" class="card-action-btn">View Channel</a>
                     </div>
                 </div>
+                <!-- Bonesprit (Thunder Effect) -->
                 <div class="showcase-card" data-search="youtube channel bonesprit custom vfx asset designer">
                     <div class="card-preview">
                         <div class="fx-canvas fx-thunder"></div>
@@ -487,6 +496,7 @@
                         <a href="https://www.youtube.com/@bonesprit" target="_blank" class="card-action-btn">View Channel</a>
                     </div>
                 </div>
+                <!-- DN-Stream (Aqua Effect) -->
                 <div class="showcase-card" data-search="youtube channel dn-stream live gaming content">
                     <div class="card-preview">
                         <div class="fx-canvas fx-aqua"></div>
@@ -503,6 +513,7 @@
             </div>
         </section>
 
+        <!-- CATEGORY 2: 2.Editing And Best Videos -->
         <section class="showcase-section">
             <div class="section-header">
                 <h2><i class="fa-solid fa-photo-film"></i> 2.Editing And Best Videos</h2>
@@ -519,6 +530,7 @@
             </div>
         </section>
 
+        <!-- CATEGORY 3: 2. Editing Assests , Packs . -->
         <section class="showcase-section">
             <div class="section-header">
                 <h2><i class="fa-solid fa-box-open"></i> 2. Editing Assests , Packs .</h2>
@@ -535,6 +547,7 @@
             </div>
         </section>
 
+        <!-- CATEGORY 4: 4. Chat -->
         <section class="showcase-section">
             <div class="section-header">
                 <h2><i class="fa-solid fa-comments"></i> 4. Chat</h2>
@@ -576,6 +589,7 @@
         </section>
     </div>
 
+    <!-- PROFILE REGISTRATION MODAL -->
     <div class="modal" id="authModal">
         <div class="modal-content">
             <h3><i class="fa-brands fa-google"></i> Create Profile Settings</h3>
@@ -588,6 +602,7 @@
         </div>
     </div>
 
+    <!-- DYNAMIC UPLOAD/ADD ENTRIES MODAL -->
     <div class="modal" id="uploadModal">
         <div class="modal-content">
             <h3><i class="fa-solid fa-folder-plus"></i> Add Entry Content</h3>
@@ -606,6 +621,7 @@
         </div>
     </div>
 
+    <!-- MAIN DYNAMIC ENGINE LOGIC -->
     <script>
         let currentUser = JSON.parse(localStorage.getItem('gorilla_user')) || null;
         let activeLobbyId = null;
@@ -707,7 +723,6 @@
             const pass = document.getElementById('passwordInput').value.trim();
             if(!user || !pass) return alert("Forms require valid parameters.");
             
-            // Defualts role natively to member to allow structural usage without setup complex options
             currentUser = { username: user, role: 'member' };
             localStorage.setItem('gorilla_user', JSON.stringify(currentUser));
             closeAuthModal();
