@@ -1,1 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sakura Profile Space</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
 
+        body {
+            /* Using your GIF as a fixed, fullscreen background */
+            background: url('https://media0.giphy.com/media/ovWn8N8TVg8hi/giphy.gif') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Dark overlay to make text readable over the bright GIF */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(20, 10, 15, 0.45);
+            z-index: -1;
+        }
+
+        /* --- NAVBAR AREA --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255, 182, 193, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.6);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Search Bar styling */
+        .search-container {
+            position: relative;
+        }
+
+        .search-bar {
+            padding: 10px 15px 10px 40px;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.3s ease;
+            width: 220px;
+        }
+
+        .search-bar:focus {
+            width: 280px;
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #ffb6c1;
+            box-shadow: 0 0 15px rgba(255, 182, 193, 0.5);
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Fancy Buttons Styling */
+        .fancy-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .discord-btn {
+            background: linear-gradient(135deg, #5865F2 0%, #404eed 100%);
+        }
+
+        .youtube-btn {
+            background: linear-gradient(135deg, #FF0000 0%, #cc0000 100%);
+        }
+
+        .fancy-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4);
+            filter: brightness(1.1);
+        }
+
+        /* --- MAIN CONTENT LAYOUT --- */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .nav-right {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        /* Glassmorphic Card Mixin Style */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        /* Profile Card Left side */
+        .profile-card {
+            text-align: center;
+            height: fit-content;
+        }
+
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid #ffb6c1;
+            object-fit: cover;
+            margin-bottom: 15px;
+            box-shadow: 0 0 20px rgba(255, 182, 193, 0.5);
+        }
+
+        .profile-card h2 {
+            margin-bottom: 5px;
+            font-size: 1.6rem;
+        }
+
+        .profile-card p {
+            color: #ffb6c1;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .discord-box-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .discord-server-link {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .discord-server-link:hover {
+            background: rgba(88, 101, 242, 0.2);
+            border-color: #5865F2;
+        }
+
+        /* Right Content Area */
+        .main-showcase {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            border-left: 4px solid #ffb6c1;
+            padding-left: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Cards/Grid items setup */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .item-card {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 182, 193, 0.3);
+        }
+
+        .tag {
+            display: inline-block;
+            background: rgba(255, 182, 193, 0.2);
+            color: #ffb6c1;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .item-card h4 {
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .item-card p {
+            font-size: 0.85rem;
+            color: #ccc;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">GORILLA //</div>
+        <div class="nav-right">
+            <div class="search-container">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" class="search-bar" placeholder="Search editing templates, AE tot...">
+            </div>
+            
+            <a href="https://discord.gg/PmwDZN73bS" target="_blank" class="fancy-btn discord-btn">
+                <i class="fa-brands fa-discord"></i> Discord
+            </a>
+            <a href="https://www.youtube.com/@gorillaxd133" target="_blank" class="fancy-btn youtube-btn">
+                <i class="fa-brands fa-youtube"></i> YouTube
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <aside class="glass-card profile-card">
+            <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=150" alt="Profile" class="profile-img">
+            <h2>GorillaXD</h2>
+            <p>VFX & Video Editor / Concept Creator</p>
+            <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: 15px;">
+            
+            <h3 style="font-size: 1rem; text-align: left; color:#ffb6c1;"><i class="fa-brands fa-discord"></i> My Communities</h3>
+            <div class="discord-box-links">
+                <a href="https://discord.gg/PmwDZN73bS" target="_blank" class="discord-server-link">
+                    <span>Main Hub</span> <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+                <a href="https://discord.gg/V52Y2Vtcm2" target="_blank" class="discord-server-link">
+                    <span>Secondary Zone</span> <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-showcase">
+            
+            <section class="glass-card">
+                <h3 class="section-title"><i class="fa-solid fa-clapperboard"></i> Featured Video Assets & Concepts</h3>
+                
+                <div class="grid-layout" id="contentGrid">
+                    <div class="item-card" data-keywords="after effect toto ae text editing tutorial">
+                        <span class="tag">After Effects</span>
+                        <h4>Neon Text Glow Toto</h4>
+                        <p>Learn how to map complex glowing aesthetics onto kinetic typography without plug-ins.</p>
+                    </div>
+                    <div class="item-card" data-keywords="editing tot smooth transformation cut velocity premiere">
+                        <span class="tag">Editing Tot</span>
+                        <h4>Smooth Velocity Tracking</h4>
+                        <p>Master clean speed-ramping dynamics and keyframing transitions effortlessly.</p>
+                    </div>
+                    <div class="item-card" data-keywords="ideas design template project aesthetic">
+                        <span class="tag">My Ideas</span>
+                        <h4>Sakura HUD Project Layout</h4>
+                        <p>A structural concept pack blending anime graphics with minimal modern user interfaces.</p>
+                    </div>
+                    <div class="item-card" data-keywords="after effect toto ae cc color correction pack">
+                        <span class="tag">After Effects</span>
+                        <h4>Vibrant Cherry CC Pack</h4>
+                        <p>A customized preset profile config file optimized for dark, high-contrast anime style edits.</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const cards = document.querySelectorAll('.item-card');
+
+        searchInput.addEventListener('input', (e) => {
+            const value = e.target.value.toLowerCase().trim();
+            
+            cards.forEach(card => {
+                // Get pre-defined keywords string from HTML dataset attribute
+                const keywords = card.getAttribute('data-keywords').toLowerCase();
+                
+                if (keywords.includes(value)) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        });
+    </script>
+</body>
+</html>
