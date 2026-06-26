@@ -233,6 +233,8 @@
             justify-content: center;
             position: relative;
             overflow: hidden;
+            background-size: cover;
+            background-position: center;
         }
 
         .pfp-circle {
@@ -244,10 +246,16 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
             z-index: 2;
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
+            overflow: hidden;
+        }
+
+        .pfp-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         /* FX Container Layer inside previews */
@@ -404,7 +412,9 @@
                 <div class="showcase-card" data-search="youtube channel gorillaxd vfx edits videos">
                     <div class="card-preview">
                         <div class="fx-canvas fx-jungle"></div>
-                        <div class="pfp-circle" style="border-color: #2ec471;"><i class="fa-brands fa-youtube" style="color:#2ec471;"></i></div>
+                        <div class="pfp-circle" style="border-color: #2ec471;">
+                            <img src="https://yt3.googleusercontent.com/x_Ikx68Pfmvyh4saRs5wKA7ahKNVNKUzbxGmqVVajYfMRMmEJiSwMMTfudyZhx2W9wsWCBY1lpI=s160-c-k-c0x00ffffff-no-rj" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100'" alt="GorillaXD">
+                        </div>
                     </div>
                     <div class="card-body">
                         <h3>GorillaXD</h3>
@@ -415,7 +425,9 @@
                 <div class="showcase-card" data-search="youtube channel omenvalot edits cinematic montages">
                     <div class="card-preview">
                         <div class="fx-canvas fx-fire"></div>
-                        <div class="pfp-circle" style="border-color: #e74c3c;"><i class="fa-solid fa-fire" style="color:#e74c3c;"></i></div>
+                        <div class="pfp-circle" style="border-color: #e74c3c;">
+                            <img src="https://yt3.googleusercontent.com/i_-7AgYVd1q4QMdev5IBovNbdSvwxcJ0Pnn976eT1QRniidH2L8EHE1uFHBpfGTXZOWmBPf4hA=s160-c-k-c0x00ffffff-no-rj" onerror="this.src='https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?w=100'" alt="Omenvalot">
+                        </div>
                     </div>
                     <div class="card-body">
                         <h3>Omenvalot</h3>
@@ -426,7 +438,9 @@
                 <div class="showcase-card" data-search="youtube channel bonesprit custom vfx asset designer">
                     <div class="card-preview">
                         <div class="fx-canvas fx-thunder"></div>
-                        <div class="pfp-circle" style="border-color: #9b59b6;"><i class="fa-solid fa-bolt" style="color:#9b59b6;"></i></div>
+                        <div class="pfp-circle" style="border-color: #9b59b6;">
+                            <img src="https://yt3.googleusercontent.com/D5mlV0vWSlvu8I6vZsadwj3aBxCr5j2b2qyDMAhGZvwEe2nRqBLWeSPASshGNv8i9NbiEe71=s160-c-k-c0x00ffffff-no-rj" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=100'" alt="Bonesprit">
+                        </div>
                     </div>
                     <div class="card-body">
                         <h3>Bonesprit</h3>
@@ -437,7 +451,9 @@
                 <div class="showcase-card" data-search="youtube channel dn-stream live gaming content">
                     <div class="card-preview">
                         <div class="fx-canvas fx-aqua"></div>
-                        <div class="pfp-circle" style="border-color: #3498db;"><i class="fa-solid fa-droplet" style="color:#3498db;"></i></div>
+                        <div class="pfp-circle" style="border-color: #3498db;">
+                            <img src="https://yt3.googleusercontent.com/yVsQPQx9xWN9GQvEl66VoU_CJeB7gb27BXXHCSn6RPrOV1UJ48L23IcAXWJfU_rmUduWDltExQ=s160-c-k-c0x00ffffff-no-rj" onerror="this.src='https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=100'" alt="DNStream">
+                        </div>
                     </div>
                     <div class="card-body">
                         <h3>DN-Stream</h3>
@@ -454,7 +470,7 @@
             </div>
             <div class="showcase-grid" id="cat2Grid">
                 <div class="showcase-card" data-search="after effect toto ae preset editing tool glow text">
-                    <div class="card-preview"><span class="card-badge">After Effects</span><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    <div class="card-preview"><span class="card-badge">After Effects</span><i class="fa-solid fa-wand-magic-sparkles" style="font-size: 2rem; color: rgba(255,255,255,0.3)"></i></div>
                     <div class="card-body">
                         <h3>Neon Text Glow Tut</h3>
                         <p>Learn how to map complex glowing aesthetics onto kinetic typography seamlessly.</p>
@@ -510,7 +526,7 @@
             </div>
             <div class="showcase-grid" id="cat4Grid">
                 <div class="showcase-card" data-search="ideas configuration asset pack overlay sakura">
-                    <div class="card-preview"><span class="card-badge">Assets</span><i class="fa-solid fa-lightbulb"></i></div>
+                    <div class="card-preview"><span class="card-badge">Assets</span><i class="fa-solid fa-lightbulb" style="font-size: 2rem; color: rgba(255,255,255,0.3)"></i></div>
                     <div class="card-body">
                         <h3>Sakura Overlay Blueprint Pack</h3>
                         <p>Conceptual asset graphics built to cleanly frame high-contrast video workflows.</p>
@@ -564,7 +580,6 @@
             updateAuthUIState();
             loadLobbiesFromStorage();
             
-            // Enter key binding for fast messaging
             document.getElementById('chatInputField').addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') { sendChatMessage(); }
             });
@@ -575,7 +590,6 @@
             }, 800);
         });
 
-        // Discord split dropdown view toggle
         function toggleDiscordMenu() {
             const el = document.getElementById('discordDropdown');
             el.style.display = el.style.display === 'block' ? 'none' : 'block';
@@ -586,7 +600,32 @@
             }
         });
 
-        // Hub item dynamic creation / layout distribution
+        // Smart asset URL parsing for YouTube thumbnails and cloud storage icons
+        function getCardPreviewHTML(link) {
+            let bgStyle = "";
+            let innerIconHTML = `<i class="fa-solid fa-file-export" style="font-size:2rem; opacity:0.3;"></i>`;
+
+            if (link.includes('youtube.com/watch') || link.includes('youtu.be/')) {
+                let videoId = "";
+                if(link.includes('youtube.com/watch')) {
+                    const urlParams = new URLSearchParams(new URL(link).search);
+                    videoId = urlParams.get('v');
+                } else if(link.includes('youtu.be/')) {
+                    videoId = link.split('/').pop().split('?')[0];
+                }
+                if(videoId) {
+                    bgStyle = `background-image: url('https://img.youtube.com/vi/${videoId}/mqdefault.jpg');`;
+                    innerIconHTML = ""; 
+                }
+            } else if (link.includes('drive.google.com')) {
+                innerIconHTML = `<i class="fa-brands fa-google-drive" style="font-size:3rem; color:#2ecc71;"></i>`;
+            } else if (link.includes('mediafire.com')) {
+                innerIconHTML = `<i class="fa-solid fa-cloud-arrow-down" style="font-size:3rem; color:#3498db;"></i>`;
+            }
+
+            return `<div class="card-preview" style="${bgStyle}">${innerIconHTML}</div>`;
+        }
+
         function openUploadModal() { document.getElementById('uploadModal').style.display = 'flex'; }
         function closeUploadModal() { document.getElementById('uploadModal').style.display = 'none'; }
         
@@ -604,8 +643,11 @@
             const card = document.createElement('div');
             card.className = "showcase-card";
             card.setAttribute('data-search', `${title.toLowerCase()} ${desc.toLowerCase()}`);
+            
+            const previewHTML = getCardPreviewHTML(link);
+            
             card.innerHTML = `
-                <div class="card-preview"><i class="fa-solid fa-file-export" style="font-size:2rem; opacity:0.3;"></i></div>
+                ${previewHTML}
                 <div class="card-body">
                     <h3>${title}</h3>
                     <p>${desc}</p>
@@ -616,7 +658,6 @@
             closeUploadModal();
         }
 
-        // Search engine filter match routine
         document.getElementById('globalSearch').addEventListener('input', (e) => {
             const query = e.target.value.toLowerCase().trim();
             document.querySelectorAll('.showcase-card').forEach(card => {
@@ -625,7 +666,6 @@
             });
         });
 
-        // Auth management workflows
         function openAuthModal() { if(!currentUser) document.getElementById('authModal').style.display = 'flex'; }
         function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
 
@@ -670,7 +710,6 @@
             localStorage.removeItem('gorilla_user'); currentUser = null; updateAuthUIState();
         }
 
-        // Storage Engine Chat configurations
         function getLobbies() { return JSON.parse(localStorage.getItem('chat_lobbies')) || {}; }
         function saveLobbies(lobbies) { localStorage.setItem('chat_lobbies', JSON.stringify(lobbies)); }
 
@@ -731,10 +770,12 @@
                 let attachmentHtml = '';
                 
                 if (msg.file) {
-                    if (msg.fileType.startsWith('image/')) {
+                    if (msg.fileType && msg.fileType.startsWith('image/')) {
                         attachmentHtml = `<img src="${msg.file}" class="media-preview-img" />`;
-                    } else if (msg.fileType.startsWith('video/')) {
+                    } else if (msg.fileType && msg.fileType.startsWith('video/')) {
                         attachmentHtml = `<video src="${msg.file}" controls class="media-preview-vid"></video>`;
+                    } else {
+                        attachmentHtml = `<div style="margin-top:5px; padding:5px; background:rgba(255,255,255,0.1); border-radius:4px;"><i class="fa-solid fa-file-zipper"></i> Shared Asset file</div>`;
                     }
                 }
 
@@ -774,14 +815,13 @@
             }
         }
 
-        // Base64 file converter with a strict 10MB limit guardrail
         function handleChatFileUpload(inputElement) {
             if(!activeLobbyId || !currentUser) return;
             const file = inputElement.files[0];
             if (!file) return;
 
             if (file.size > 10 * 1024 * 1024) {
-                alert("File matches an oversized profile index. Maximum allowed size is 10MB.");
+                alert("Maximum allowed size is 10MB.");
                 return;
             }
 
@@ -792,7 +832,7 @@
                     lobbies[activeLobbyId].messages.push({
                         sender: currentUser.username,
                         role: currentUser.role,
-                        text: `Sent an attachment: ${file.name}`,
+                        text: `Sent attachment: ${file.name}`,
                         file: e.target.result,
                         fileType: file.type
                     });
@@ -826,7 +866,6 @@
             if (!userToKick) return;
 
             const lobbies = getLobbies();
-            // Filter configuration loop to wipe user history and safely enforce privileges
             lobbies[lobbyId].messages = lobbies[lobbyId].messages.filter(msg => {
                 if (msg.sender.toLowerCase() === userToKick.toLowerCase()) {
                     if (msg.role === 'host') {
