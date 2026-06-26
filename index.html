@@ -626,4 +626,234 @@
         });
 
         // Auth management workflows
-        function openAuthModal
+        function openAuthModal() { if(!currentUser) document.getElementById('authModal').style.display = 'flex'; }
+        function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
+
+        function submitRegistration() {
+            const user = document.getElementById('usernameInput').value.trim();
+            const pass = document.getElementById('passwordInput').value.trim();
+            const role = document.getElementById('roleSelect').value;
+            if(!user || !pass) return alert("Forms require valid parameters.");
+            
+            currentUser = { username: user, role: role };
+            localStorage.setItem('gorilla_user', JSON.stringify(currentUser));
+            closeAuthModal();
+            updateAuthUIState();
+        }
+
+        function updateAuthUIState() {
+            const btn = document.getElementById('loginBtn');
+            const mask = document.getElementById('chatAuthMask');
+            const rBadge = document.getElementById('myRoleBadge');
+            
+            if(currentUser) {
+                btn.innerHTML = `<i class="fa-solid fa-circle-user"></i> ${currentUser.username} (R-Click)`;
+                btn.style.background = "rgba(255, 182, 193, 0.2)"; btn.style.color = "#ffb6c1";
+                mask.style.display = 'none';
+                rBadge.innerText = currentUser.role.toUpperCase();
+            } else {
+                btn.innerHTML = `<i class="fa-brands fa-google"></i> Sign In`;
+                btn.style.background = "#fff"; btn.style.color = "#1f1f1f";
+                mask.style.display = 'flex';
+                activeLobbyId = null;
+                rBadge.innerText = '';
+            }
+        }
+
+        document.getElementById('loginBtn').addEventListener('contextmenu', (e) => {
+            if(!currentUser) return; e.preventDefault();
+            document.getElementById('contextMenu').style.display = 'block';
+        });
+        window.addEventListener('click', () => { document.getElementById('contextMenu').style.display = 'none'; });
+
+        function handleLogout() {
+            localStorage.removeItem('gorilla_user'); currentUser = null; updateAuthUIState();
+        }
+
+        // Storage Engine Chat configurations
+        function getLobbies() { return JSON.parse(localStorage.getItem('chat_lobbies')) || {}; }
+        function saveLobbies(lobbies) { localStorage.setItem('chat_lobbies', JSON.stringify(lobbies)); }
+
+        function loadLobbiesFromStorage() {
+            const lobbies = getLobbies();
+            const container = document.getElementById('lobbyList');
+            container.innerHTML = '';
+            
+            Object.keys(lobbies).forEach(id => {
+                const item = document.createElement('div');
+                item.className = `lobby-item ${activeLobbyId === id ? 'active' : ''}`;
+                item.onclick = () => switchLobby(id);
+                item.innerHTML = `<span style="display:flex; justify-content:space-between; width:100%; align-items:center;">
+                    <span># ${lobbies[id].name}</span>
+                    ${currentUser && currentUser.role === 'vip' ? `<i class="fa-solid fa-user-slash" style="color:#ff6b6b;" onclick="event.stopPropagation(); kickUserPrompt('${id}')"></i>` : ''}
+                </span>`;
+                container.appendChild(item);
+            });
+        }
+
+        function createNewLobby() {
+            if(!currentUser) return openAuthModal();
+            const name = prompt("Enter Lobby Name:");
+            if(!name || !name.trim()) return;
+            
+            const lobbies = getLobbies();
+            const newId = 'lobby_' + Date.now();
+            lobbies[newId] = { name: name.trim(), host: currentUser.username, messages: [] };
+            saveLobbies(lobbies);
+            switchLobby(newId);
+        }
+
+        function switchLobby(id) {
+            activeLobbyId = id;
+            const lobbies = getLobbies();
+            if(!lobbies[id]) return;
+            document.getElementById('activeLobbyTitle').innerText = `# ${lobbies[id].name}`;
+            
+            const endBtn = document.getElementById('endChatBtn');
+            if(currentUser && currentUser.role === 'host') {
+                endBtn.style.display = 'inline-flex';
+            } else {
+                endBtn.style.display = 'none';
+            }
+            loadLobbiesFromStorage();
+            renderActiveMessages();
+        }
+
+        function renderActiveMessages() {
+            if(!activeLobbyId) return;
+            const lobbies = getLobbies();
+            const chatContainer = document.getElementById('chatMessages');
+            if(!lobbies[activeLobbyId]) return;
+            
+            let htmlContent = '';
+            lobbies[activeLobbyId].messages.forEach((msg, idx) => {
+                const isMe = currentUser && currentUser.username === msg.sender;
+                let attachmentHtml = '';
+                
+                if (msg.file) {
+                    if (msg.fileType.startsWith('image/')) {
+                        attachmentHtml = `<img src="${msg.file}" class="media-preview-img" />`;
+                    } else if (msg.fileType.startsWith('video/')) {
+                        attachmentHtml = `<video src="${msg.file}" controls class="media-preview-vid"></video>`;
+                    }
+                }
+
+                htmlContent += `
+                    <div class="message">
+                        <div class="meta">${msg.sender} (${msg.role.toUpperCase()})</div>
+                        <div>${msg.text}</div>
+                        ${attachmentHtml}
+                        ${isMe ? `
+                            <div class="message-actions">
+                                <button class="msg-btn" onclick="editChatMessage(${idx})">Edit</button>
+                                <button class="msg-btn" onclick="deleteChatMessage(${idx})">Delete</button>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            chatContainer.innerHTML = htmlContent;
+        }
+
+        function sendChatMessage() {
+            if(!activeLobbyId || !currentUser) return;
+            const input = document.getElementById('chatInputField');
+            const text = input.value.trim();
+            if(!text) return;
+
+            const lobbies = getLobbies();
+            if(lobbies[activeLobbyId]) {
+                lobbies[activeLobbyId].messages.push({
+                    sender: currentUser.username,
+                    role: currentUser.role,
+                    text: text
+                });
+                saveLobbies(lobbies);
+                input.value = '';
+                renderActiveMessages();
+            }
+        }
+
+        // Base64 file converter with a strict 10MB limit guardrail
+        function handleChatFileUpload(inputElement) {
+            if(!activeLobbyId || !currentUser) return;
+            const file = inputElement.files[0];
+            if (!file) return;
+
+            if (file.size > 10 * 1024 * 1024) {
+                alert("File matches an oversized profile index. Maximum allowed size is 10MB.");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const lobbies = getLobbies();
+                if(lobbies[activeLobbyId]) {
+                    lobbies[activeLobbyId].messages.push({
+                        sender: currentUser.username,
+                        role: currentUser.role,
+                        text: `Sent an attachment: ${file.name}`,
+                        file: e.target.result,
+                        fileType: file.type
+                    });
+                    saveLobbies(lobbies);
+                    renderActiveMessages();
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function editChatMessage(idx) {
+            const lobbies = getLobbies();
+            const msg = lobbies[activeLobbyId].messages[idx];
+            const updatedText = prompt("Edit message context text:", msg.text);
+            if (updatedText === null) return;
+            
+            msg.text = updatedText;
+            saveLobbies(lobbies);
+            renderActiveMessages();
+        }
+
+        function deleteChatMessage(idx) {
+            const lobbies = getLobbies();
+            lobbies[activeLobbyId].messages.splice(idx, 1);
+            saveLobbies(lobbies);
+            renderActiveMessages();
+        }
+
+        function kickUserPrompt(lobbyId) {
+            const userToKick = prompt("Type username of the member you wish to remove from this room:");
+            if (!userToKick) return;
+
+            const lobbies = getLobbies();
+            // Filter configuration loop to wipe user history and safely enforce privileges
+            lobbies[lobbyId].messages = lobbies[lobbyId].messages.filter(msg => {
+                if (msg.sender.toLowerCase() === userToKick.toLowerCase()) {
+                    if (msg.role === 'host') {
+                        alert("Permission denied. VIP accounts cannot target Host elements.");
+                        return true;
+                    }
+                    return false;
+                }
+                return true;
+            });
+            saveLobbies(lobbies);
+            alert(`Purged instances matching configuration identity: ${userToKick}`);
+            renderActiveMessages();
+        }
+
+        function endCurrentChat() {
+            if(!activeLobbyId || !currentUser || currentUser.role !== 'host') return;
+            const lobbies = getLobbies();
+            delete lobbies[activeLobbyId];
+            saveLobbies(lobbies);
+            
+            activeLobbyId = null;
+            document.getElementById('activeLobbyTitle').innerText = 'Select or Create a Lobby';
+            document.getElementById('endChatBtn').style.display = 'none';
+            document.getElementById('chatMessages').innerHTML = '';
+            loadLobbiesFromStorage();
+        }
+    </script>
+</body>
+</html>
