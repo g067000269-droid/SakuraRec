@@ -146,7 +146,6 @@
             width: 18px;
             height: 18px;
             fill: currentColor;
-            display: inline-block;
         }
 
         .fancy-btn::before {
@@ -222,44 +221,32 @@
             text-shadow: 0 0 15px var(--sakura-glow);
         }
 
-        /* --- CATEGORIES TABS (IMPROVED WITH COOL BLOOM STYLE) --- */
+        /* --- CATEGORIES TABS --- */
         .category-tabs {
             display: flex;
             justify-content: center;
-            gap: 18px;
+            gap: 15px;
             margin-bottom: 40px;
             flex-wrap: wrap;
         }
 
         .tab-btn {
-            background: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(255, 117, 151, 0.3);
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 117, 151, 0.2);
             color: var(--text);
-            padding: 14px 34px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 15px;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
             cursor: pointer;
-            letter-spacing: 0.5px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 10px rgba(255, 117, 151, 0.05);
+            transition: all 0.3s ease;
         }
 
-        .tab-btn:hover {
-            transform: translateY(-2px) scale(1.03);
-            background: rgba(255, 255, 255, 0.95);
-            border-color: var(--sakura-dark);
-            box-shadow: 0 0 20px var(--sakura-glow);
-            color: var(--sakura-dark);
-        }
-
-        .tab-btn.active {
-            background: linear-gradient(135deg, var(--sakura-dark), #e04a70);
+        .tab-btn:hover, .tab-btn.active {
+            background: var(--sakura-dark);
             color: #fff;
-            box-shadow: 0 0 25px rgba(255, 117, 151, 0.6), inset 0 0 8px rgba(255,255,255,0.2);
-            border-color: #e04a70;
-            transform: translateY(-2px);
+            box-shadow: 0 0 20px var(--sakura-glow);
+            border-color: var(--sakura-dark);
+            filter: saturate(1.1);
         }
 
         .category-panel {
@@ -435,14 +422,6 @@
             border: 1px solid rgba(255, 117, 151, 0.2);
             display: none;
             text-align: center;
-        }
-
-        .flex-actions-container {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-            flex-wrap: wrap;
         }
 
         .thumb-wrapper {
@@ -625,8 +604,8 @@
                 </a>
 
                 <a href="https://www.youtube.com/@gorillaxd133" target="_blank" class="fancy-btn btn-youtube">
-                    <svg viewBox="0 0 24 24" style="width:18px; height:18px;">
-                        <path fill="#ffffff" d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93 .502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    <svg viewBox="0 0 24 24">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545( 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                     </svg>
                     YouTube
                 </a>
@@ -658,18 +637,6 @@
                             <h2>Thumbnail Extractor</h2>
                         </div>
                         <p style="font-size:13px; color: var(--text-muted);">Rip and generate 1280x720 video layout frames instantly.</p>
-                    </div>
-
-                    <div class="tool-card" data-tags="download music youtube spotify mp3 audio video link" onclick="openDedicatedTool('music-downloader-panel')">
-                        <div class="tool-header">
-                            <div class="tool-icon" style="background: rgba(255, 117, 151, 0.15);">
-                                <svg viewBox="0 0 24 24" style="width:28px; height:28px; fill:var(--sakura-dark);">
-                                    <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h6V3h-6z"/>
-                                </svg>
-                            </div>
-                            <h2>Download Music</h2>
-                        </div>
-                        <p style="font-size:13px; color: var(--text-muted);">Download high-quality audio or video layouts via YouTube or Spotify URLs.</p>
                     </div>
                 </div>
             </div>
@@ -754,37 +721,6 @@
                     </svg>
                     Download Image
                 </button>
-            </div>
-        </div>
-
-        <div id="music-downloader-panel" class="dedicated-panel">
-            <button class="back-btn" onclick="closeDedicatedTool()">← Back to Dashboard</button>
-            <div class="panel-title">
-                <div class="tool-icon" style="background: rgba(255, 117, 151, 0.15); display: flex; align-items: center; justify-content: center; border-radius: 12px;">
-                    <svg viewBox="0 0 24 24" style="width:24px; height:24px; fill:var(--sakura-dark);">
-                        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h6V3h-6z"/>
-                    </svg>
-                </div>
-                Music & Media Downloader
-            </div>
-            <div class="input-group">
-                <label>YouTube or Spotify Track URL</label>
-                <input type="text" id="mediaUrlInput" placeholder="Paste link here...">
-            </div>
-            <button class="action-trigger" onclick="processMediaLink()">Process Link</button>
-            
-            <div class="result-box" id="mediaResultBox">
-                <div class="thumb-meta" id="mediaStatusMeta" style="margin-top:0; margin-bottom: 15px;">Media Ready For Export</div>
-                <div class="flex-actions-container">
-                    <button class="fancy-btn" style="background: linear-gradient(135deg, #4a90e2, #357abd); border-bottom: 3px solid #285a8f;" onclick="downloadMediaFile('video')">
-                        <svg viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;"><path d="M23 7l-7 5 7 5V7z"></path><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
-                        Download Video
-                    </button>
-                    <button class="fancy-btn" style="background: linear-gradient(135deg, var(--sakura-dark), #e04a70); border-bottom: 3px solid #b83252;" onclick="downloadMediaFile('audio')">
-                        <svg viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
-                        Download Audio (MP3)
-                    </button>
-                </div>
             </div>
         </div>
 
@@ -960,44 +896,6 @@
                     const a = document.createElement('a');
                     a.href = musicUrl;
                     a.download = 'sakurahub_music.mp3';
-                    a.target = '_blank';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                });
-        }
-
-        // --- NEW MEDIA LOADER ENGINE ---
-        function processMediaLink() {
-            const inputVal = document.getElementById('mediaUrlInput').value.trim();
-            if(!inputVal) {
-                alert('Please enter a valid link path configuration.');
-                return;
-            }
-            document.getElementById('mediaResultBox').style.display = 'block';
-        }
-
-        function downloadMediaFile(type) {
-            // Placeholder target source configured to process download payload formats seamlessly 
-            const sourceUrl = audioNode.src; 
-            const extension = type === 'video' ? 'mp4' : 'mp3';
-            
-            fetch(sourceUrl)
-                .then(res => res.blob())
-                .then(blob => {
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `sakurahub_media.${extension}`;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    window.URL.revokeObjectURL(url);
-                })
-                .catch(() => {
-                    const a = document.createElement('a');
-                    a.href = sourceUrl;
-                    a.download = `sakurahub_media.${extension}`;
                     a.target = '_blank';
                     document.body.appendChild(a);
                     a.click();
