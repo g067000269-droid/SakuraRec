@@ -454,6 +454,40 @@
             border-radius: 12px;
             background: rgba(255, 255, 255, 0.4);
         }
+
+        /* --- MUSIC HUB STYLING --- */
+        .music-container {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 117, 151, 0.15);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 30px rgba(255, 117, 151, 0.08);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .music-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 5px;
+        }
+        .music-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+        .btn-music-dl {
+            background: linear-gradient(135deg, var(--sakura-dark), #e04a70);
+            border-bottom: 3px solid #b83252;
+            display: inline-flex;
+            width: auto;
+            padding: 12px 24px;
+        }
+        .btn-music-dl:hover {
+            box-shadow: 0 0 25px var(--sakura-glow);
+        }
     </style>
 </head>
 <body>
@@ -531,9 +565,17 @@
             </div>
 
             <div id="panel-music" class="category-panel">
-                <div class="placeholder-content">
-                    <h3>Copyright Free Audio Streams</h3>
-                    <p style="margin-top:10px;">Curated safe streams ready for background track syncing.</p>
+                <div class="music-container">
+                    <div class="music-title">Masked Dedede - Super Smash Bros. Ultimate</div>
+                    <div class="music-subtitle">Format: High Quality Audio Tracks (MP3)</div>
+                    <button class="fancy-btn btn-music-dl" onclick="downloadMusic()">
+                        <svg viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Download Music
+                    </button>
                 </div>
             </div>
 
@@ -661,10 +703,36 @@
                     window.URL.revokeObjectURL(url);
                 })
                 .catch(() => {
-                    // Fallback to open tab in case of strict CORS restrictions on client environment
                     const a = document.createElement('a');
                     a.href = imgSrc;
                     a.download = 'sakurahub.png';
+                    a.target = '_blank';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                });
+        }
+
+        // --- MUSIC DOWNLOAD HANDLING ---
+        function downloadMusic() {
+            const musicUrl = "https://cdn.discordapp.com/attachments/1503422943512891470/1520422904158879854/Masked_Dedede_-_Super_Smash_Bros_Ultimate.mp3?ex=6a4123ac&is=6a3fd22c&hm=60c6ef1b552cf0ab9c404141d591f7650bf5d483415c10ad7db8c7b966ea25c5&";
+            
+            fetch(musicUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'sakurahub_music.mp3';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(() => {
+                    const a = document.createElement('a');
+                    a.href = musicUrl;
+                    a.download = 'sakurahub_music.mp3';
                     a.target = '_blank';
                     document.body.appendChild(a);
                     a.click();
