@@ -467,17 +467,108 @@
             max-width: 600px;
             margin: 0 auto;
         }
+        .music-header-layout {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .music-icon-svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--sakura-dark);
+            filter: drop-shadow(0 0 5px var(--sakura-glow));
+        }
         .music-title {
             font-size: 1.4rem;
             font-weight: 700;
             color: var(--text);
-            margin-bottom: 5px;
+            text-align: left;
         }
         .music-subtitle {
             font-size: 13px;
             color: var(--text-muted);
             margin-bottom: 20px;
         }
+        
+        /* --- PLAYER STYLES --- */
+        .audio-player-interface {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 117, 151, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .player-controls-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .play-toggle-btn {
+            background: var(--sakura-dark);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            transition: all 0.2s;
+            box-shadow: 0 4px 10px var(--sakura-glow);
+        }
+        .play-toggle-btn:hover {
+            transform: scale(1.05);
+            filter: saturate(1.2);
+        }
+        .play-toggle-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+        .timeline-slider-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        .timeline-bar {
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(255, 117, 151, 0.2);
+            height: 6px;
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .timeline-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--sakura-dark);
+            cursor: pointer;
+            box-shadow: 0 0 10px var(--sakura-glow);
+            transition: transform 0.1s;
+        }
+        .timeline-bar::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+        .time-counter-lbl {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            min-width: 35px;
+        }
+
         .btn-music-dl {
             background: linear-gradient(135deg, var(--sakura-dark), #e04a70);
             border-bottom: 3px solid #b83252;
@@ -514,7 +605,7 @@
 
                 <a href="https://www.youtube.com/@gorillaxd133" target="_blank" class="fancy-btn btn-youtube">
                     <svg viewBox="0 0 24 24">
-                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545( 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                     </svg>
                     YouTube
                 </a>
@@ -566,8 +657,30 @@
 
             <div id="panel-music" class="category-panel">
                 <div class="music-container">
-                    <div class="music-title">Masked Dedede - Super Smash Bros. Ultimate</div>
+                    <div class="music-header-layout">
+                        <svg class="music-icon-svg" viewBox="0 0 24 24">
+                            <path d="M9 18V5l12-2v13"></path>
+                            <circle cx="6" cy="18" r="3"></circle>
+                            <circle cx="18" cy="16" r="3"></circle>
+                        </svg>
+                        <div class="music-title">Masked Dedede - Super Smash Bros. Ultimate</div>
+                    </div>
                     <div class="music-subtitle">Format: High Quality Audio Tracks (MP3)</div>
+                    
+                    <div class="audio-player-interface">
+                        <div class="player-controls-row">
+                            <button class="play-toggle-btn" id="playPauseBtn" onclick="toggleAudioStream()">
+                                <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                <svg id="pauseIcon" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            </button>
+                            <div class="time-counter-lbl" id="currentTimeLbl">0:00</div>
+                            <div class="timeline-slider-wrapper">
+                                <input type="range" class="timeline-bar" id="audioTimeline" value="0" min="0" max="100" oninput="seekAudioStream()">
+                            </div>
+                            <div class="time-counter-lbl" id="durationLbl">0:00</div>
+                        </div>
+                    </div>
+
                     <button class="fancy-btn btn-music-dl" onclick="downloadMusic()">
                         <svg viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"></path>
@@ -613,7 +726,16 @@
 
     </div>
 
+    <audio id="globalAudioNode" src="https://cdn.discordapp.com/attachments/1503422943512891470/1520422904158879854/Masked_Dedede_-_Super_Smash_Bros_Ultimate.mp3?ex=6a4123ac&is=6a3fd22c&hm=60c6ef1b552cf0ab9c404141d591f7650bf5d483415c10ad7db8c7b966ea25c5&" preload="metadata"></audio>
+
     <script>
+        const audioNode = document.getElementById('globalAudioNode');
+        const playIcon = document.getElementById('playIcon');
+        const pauseIcon = document.getElementById('pauseIcon');
+        const timeline = document.getElementById('audioTimeline');
+        const currentLbl = document.getElementById('currentTimeLbl');
+        const durationLbl = document.getElementById('durationLbl');
+
         function switchCategory(category) {
             closeDedicatedTool();
             const tabs = document.querySelectorAll('.tab-btn');
@@ -713,9 +835,50 @@
                 });
         }
 
+        // --- MUSIC STREAM CONTROLS ---
+        function toggleAudioStream() {
+            if (audioNode.paused) {
+                audioNode.play();
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+            } else {
+                audioNode.pause();
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+            }
+        }
+
+        function formatTimeValue(secs) {
+            let minutes = Math.floor(secs / 60);
+            let seconds = Math.floor(secs % 60);
+            if (seconds < 10) seconds = "0" + seconds;
+            return minutes + ":" + seconds;
+        }
+
+        audioNode.addEventListener('loadedmetadata', () => {
+            timeline.max = audioNode.duration;
+            durationLbl.textContent = formatTimeValue(audioNode.duration);
+        });
+
+        audioNode.addEventListener('timeupdate', () => {
+            timeline.value = audioNode.currentTime;
+            currentLbl.textContent = formatTimeValue(audioNode.currentTime);
+        });
+
+        function seekAudioStream() {
+            audioNode.currentTime = timeline.value;
+        }
+
+        audioNode.addEventListener('ended', () => {
+            playIcon.style.display = 'block';
+            pauseIcon.style.display = 'none';
+            timeline.value = 0;
+            currentLbl.textContent = "0:00";
+        });
+
         // --- MUSIC DOWNLOAD HANDLING ---
         function downloadMusic() {
-            const musicUrl = "https://cdn.discordapp.com/attachments/1503422943512891470/1520422904158879854/Masked_Dedede_-_Super_Smash_Bros_Ultimate.mp3?ex=6a4123ac&is=6a3fd22c&hm=60c6ef1b552cf0ab9c404141d591f7650bf5d483415c10ad7db8c7b966ea25c5&";
+            const musicUrl = audioNode.src;
             
             fetch(musicUrl)
                 .then(response => response.blob())
