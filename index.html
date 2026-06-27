@@ -7,10 +7,12 @@
     <style>
         :root {
             --sakura: #ffb7c5;
-            --sakura-dark: #ff8da1;
-            --bg-dark: #1a0f12;
-            --card-bg: rgba(40, 25, 30, 0.65);
-            --text: #fff0f3;
+            --sakura-dark: #ff7597;
+            --sakura-glow: rgba(255, 117, 151, 0.4);
+            --bg-light: #fff5f7;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --text: #2c1a1d;
+            --text-muted: #6e5458;
         }
 
         * {
@@ -21,9 +23,9 @@
         }
 
         body {
-            background-color: var(--bg-dark);
+            background-color: var(--bg-light);
             background-image: 
-                linear-gradient(135deg, rgba(26, 15, 18, 0.85), rgba(40, 20, 25, 0.82)),
+                linear-gradient(135deg, rgba(255, 245, 247, 0.9), rgba(255, 220, 228, 0.85)),
                 url('https://www.icegif.com/wp-content/uploads/2022/03/icegif-578.gif');
             background-size: cover;
             background-position: center;
@@ -37,14 +39,14 @@
 
         /* --- HEADER & NAV --- */
         header {
-            background: rgba(26, 15, 18, 0.8);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(12px);
             border-bottom: 2px solid var(--sakura);
             padding: 15px 5%;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 20px rgba(255, 183, 197, 0.15);
+            box-shadow: 0 4px 20px rgba(255, 117, 151, 0.15);
         }
 
         .nav-container {
@@ -58,7 +60,7 @@
         .logo {
             font-size: 24px;
             font-weight: 800;
-            background: linear-gradient(45deg, var(--sakura), #fff);
+            background: linear-gradient(45deg, var(--sakura-dark), #e04a70);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
@@ -75,27 +77,32 @@
             gap: 12px;
         }
 
-        .search-icon-img {
-            width: 24px;
-            height: 24px;
-            object-fit: contain;
+        .search-icon-svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: var(--sakura-dark);
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
             opacity: 0.8;
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            transition: opacity 0.3s ease, transform 0.3s ease, filter 0.3s ease;
             pointer-events: none;
         }
 
-        .search-box:focus-within .search-icon-img {
+        .search-box:focus-within .search-icon-svg {
             opacity: 1;
             transform: scale(1.05);
+            filter: drop-shadow(0 0 5px var(--sakura-dark));
         }
 
         .search-box input {
             flex: 1;
             padding: 12px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 183, 197, 0.25);
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 117, 151, 0.3);
             border-radius: 50px;
-            color: #fff;
+            color: var(--text);
             font-size: 14px;
             transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             backdrop-filter: blur(5px);
@@ -103,9 +110,9 @@
 
         .search-box input:focus {
             outline: none;
-            border-color: var(--sakura);
-            background: rgba(255, 255, 255, 0.12);
-            box-shadow: 0 0 20px rgba(255, 183, 197, 0.4), inset 0 0 10px rgba(255, 183, 197, 0.1);
+            border-color: var(--sakura-dark);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 25px var(--sakura-glow), inset 0 0 5px rgba(255, 117, 151, 0.1);
         }
 
         .actions-wrapper {
@@ -132,7 +139,7 @@
             overflow: hidden;
             border: none;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(255, 117, 151, 0.2);
         }
 
         .fancy-btn svg {
@@ -148,7 +155,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 183, 197, 0.4), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
             transition: 0.5s;
         }
 
@@ -158,6 +165,7 @@
 
         .fancy-btn:hover {
             transform: translateY(-3px);
+            filter: saturate(1.2);
         }
 
         .btn-discord {
@@ -165,8 +173,7 @@
             border-bottom: 3px solid #323db3;
         }
         .btn-discord:hover {
-            box-shadow: 0 0 20px rgba(255, 183, 197, 0.8);
-            border-color: var(--sakura);
+            box-shadow: 0 0 25px rgba(88, 101, 242, 0.6);
         }
 
         .btn-youtube {
@@ -174,8 +181,19 @@
             border-bottom: 3px solid #990000;
         }
         .btn-youtube:hover {
-            box-shadow: 0 0 20px rgba(255, 183, 197, 0.8);
-            border-color: var(--sakura);
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, var(--sakura-dark), #e04a70);
+            border-bottom: 3px solid #b83252;
+            margin-top: 15px;
+            width: 100%;
+            max-width: 200px;
+            display: none;
+        }
+        .btn-download:hover {
+            box-shadow: 0 0 25px var(--sakura-glow);
         }
 
         /* --- MAIN LAYOUT --- */
@@ -195,11 +213,12 @@
         .hero-title h1 {
             font-size: 2.5rem;
             font-weight: 800;
-            color: #fff;
+            color: var(--text);
         }
 
         .hero-title span {
-            color: var(--sakura);
+            color: var(--sakura-dark);
+            text-shadow: 0 0 15px var(--sakura-glow);
         }
 
         /* --- CATEGORIES TABS --- */
@@ -212,8 +231,8 @@
         }
 
         .tab-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 183, 197, 0.2);
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 117, 151, 0.2);
             color: var(--text);
             padding: 12px 30px;
             border-radius: 8px;
@@ -223,10 +242,11 @@
         }
 
         .tab-btn:hover, .tab-btn.active {
-            background: var(--sakura);
-            color: #1a0f12;
-            box-shadow: 0 0 15px rgba(255, 183, 197, 0.4);
-            border-color: var(--sakura);
+            background: var(--sakura-dark);
+            color: #fff;
+            box-shadow: 0 0 20px var(--sakura-glow);
+            border-color: var(--sakura-dark);
+            filter: saturate(1.1);
         }
 
         .category-panel {
@@ -246,11 +266,11 @@
 
         .tool-card {
             background: var(--card-bg);
-            border: 1px solid rgba(255, 183, 197, 0.15);
+            border: 1px solid rgba(255, 117, 151, 0.15);
             border-radius: 16px;
             padding: 25px;
             backdrop-filter: blur(8px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            box-shadow: 0 10px 30px rgba(255, 117, 151, 0.08);
             transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
@@ -259,8 +279,8 @@
 
         .tool-card:hover {
             transform: translateY(-5px);
-            border-color: var(--sakura);
-            box-shadow: 0 15px 35px rgba(255, 183, 197, 0.15);
+            border-color: var(--sakura-dark);
+            box-shadow: 0 15px 35px var(--sakura-glow);
         }
 
         .tool-card.search-hidden {
@@ -281,7 +301,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 183, 197, 0.15);
+            background: rgba(255, 117, 151, 0.15);
             overflow: hidden;
         }
 
@@ -293,18 +313,18 @@
 
         .tool-header h2 {
             font-size: 1.3rem;
-            color: #fff;
+            color: var(--text);
         }
 
         /* --- DEDICATED TOOL VIEW PANELS --- */
         .dedicated-panel {
             display: none;
             background: var(--card-bg);
-            border: 2px solid var(--sakura);
+            border: 2px solid var(--sakura-dark);
             border-radius: 16px;
             padding: 30px;
             backdrop-filter: blur(12px);
-            box-shadow: 0 15px 40px rgba(255, 183, 197, 0.1);
+            box-shadow: 0 15px 40px var(--sakura-glow);
             animation: fadeIn 0.4s ease;
         }
 
@@ -315,8 +335,8 @@
 
         .back-btn {
             background: none;
-            border: 1px solid var(--sakura);
-            color: var(--sakura);
+            border: 1px solid var(--sakura-dark);
+            color: var(--sakura-dark);
             padding: 8px 16px;
             border-radius: 6px;
             cursor: pointer;
@@ -326,13 +346,14 @@
         }
 
         .back-btn:hover {
-            background: var(--sakura);
-            color: #1a0f12;
+            background: var(--sakura-dark);
+            color: #fff;
+            box-shadow: 0 0 15px var(--sakura-glow);
         }
 
         .panel-title {
             font-size: 2rem;
-            color: #fff;
+            color: var(--text);
             margin-bottom: 20px;
             display: flex;
             align-items: center;
@@ -354,28 +375,29 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 8px;
-            color: var(--sakura);
+            color: var(--sakura-dark);
+            font-weight: 700;
         }
 
         input[type="text"] {
             width: 100%;
             padding: 12px 16px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 117, 151, 0.3);
             border-radius: 8px;
-            color: #fff;
+            color: var(--text);
             font-size: 15px;
         }
 
         input[type="text"]:focus {
             outline: none;
-            border-color: var(--sakura);
-            box-shadow: 0 0 10px rgba(255, 183, 197, 0.2);
+            border-color: var(--sakura-dark);
+            box-shadow: 0 0 15px var(--sakura-glow);
         }
 
         .action-trigger {
             background: linear-gradient(90deg, var(--sakura-dark), var(--sakura));
-            color: #1a0f12;
+            color: #fff;
             border: none;
             padding: 14px 28px;
             border-radius: 8px;
@@ -383,21 +405,23 @@
             cursor: pointer;
             transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s;
             font-size: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(255, 117, 151, 0.2);
         }
 
         .action-trigger:hover {
             transform: translateY(-2px);
-            box-shadow: 0 0 20px rgba(255, 183, 197, 0.8);
+            box-shadow: 0 0 25px var(--sakura-glow);
+            filter: saturate(1.2);
         }
 
         .result-box {
             margin-top: 25px;
-            background: rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.5);
             border-radius: 12px;
             padding: 20px;
-            border: 1px solid rgba(255, 183, 197, 0.1);
+            border: 1px solid rgba(255, 117, 151, 0.2);
             display: none;
+            text-align: center;
         }
 
         .thumb-wrapper {
@@ -407,7 +431,7 @@
             aspect-ratio: 16 / 9;
             overflow: hidden;
             border-radius: 8px;
-            border: 2px solid rgba(255,255,255,0.1);
+            border: 2px solid rgba(255, 117, 151, 0.2);
         }
         .thumb-output img {
             width: 100%;
@@ -418,16 +442,17 @@
         .thumb-meta {
             text-align: center;
             font-weight: 600;
-            color: var(--sakura);
+            color: var(--sakura-dark);
             margin-top: 15px;
         }
 
         .placeholder-content {
             text-align: center;
             padding: 40px;
-            color: #888;
-            border: 2px dashed rgba(255,255,255,0.1);
+            color: var(--text-muted);
+            border: 2px dashed rgba(255, 117, 151, 0.3);
             border-radius: 12px;
+            background: rgba(255, 255, 255, 0.4);
         }
     </style>
 </head>
@@ -438,7 +463,10 @@
             <div class="logo">SakuraHub</div>
             
             <div class="search-box">
-                <img class="search-icon-img" src="https://tse1.mm.bing.net/th/id/OIP.NOwn4yvrr_mhX6F4PW-FlwHaHa?r=0&cb=thumbexpctl1&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Search">
+                <svg class="search-icon-svg" viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
                 <input type="text" id="toolSearch" placeholder="Search For Tools, Editing Tutorials..." onkeyup="filterTools()">
             </div>
 
@@ -483,7 +511,7 @@
                             </div>
                             <h2>Thumbnail Extractor</h2>
                         </div>
-                        <p style="font-size:13px; color:#aaa;">Rip and generate 1280x720 video layout frames instantly.</p>
+                        <p style="font-size:13px; color: var(--text-muted);">Rip and generate 1280x720 video layout frames instantly.</p>
                     </div>
                 </div>
             </div>
@@ -530,6 +558,14 @@
                     <img id="thumbImg" src="" alt="Thumbnail Frame Link">
                 </div>
                 <div class="thumb-meta">Dimensions: 1280 x 720</div>
+                <button id="downloadBtn" class="fancy-btn btn-download" onclick="downloadThumbnail()">
+                    <svg viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download Image
+                </button>
             </div>
         </div>
 
@@ -590,6 +626,7 @@
             const urlInput = document.getElementById('ytUrl').value.trim();
             const resultBox = document.getElementById('thumbResult');
             const img = document.getElementById('thumbImg');
+            const downloadBtn = document.getElementById('downloadBtn');
             const videoId = getYouTubeID(urlInput);
             
             if (!videoId) {
@@ -601,7 +638,23 @@
             img.onerror = function() {
                 img.src = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
             };
+            
             resultBox.style.display = 'block';
+            downloadBtn.style.display = 'inline-flex';
+        }
+
+        // --- DOWNLOAD ACTION HANDLING ---
+        function downloadThumbnail() {
+            const imgSrc = document.getElementById('thumbImg').src;
+            if (!imgSrc) return;
+            
+            const a = document.createElement('a');
+            a.href = imgSrc;
+            a.download = 'youtube_thumbnail.jpg';
+            a.target = '_blank';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
     </script>
 </body>
