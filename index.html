@@ -201,39 +201,6 @@
             color: var(--aqua);
         }
 
-        /* --- CLEAN INTEGRATED API BANNER --- */
-        .api-key-banner {
-            background: var(--card-bg);
-            border: 1px solid rgba(0, 242, 254, 0.25);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 35px;
-            font-size: 14px;
-            backdrop-filter: blur(8px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-        }
-        .api-key-banner strong {
-            color: var(--aqua);
-            display: block;
-            margin-bottom: 8px;
-        }
-        .api-key-banner input[type="text"] {
-            width: 100%;
-            padding: 12px 16px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            color: #fff;
-            font-size: 14px;
-            margin-top: 5px;
-            transition: all 0.3s ease;
-        }
-        .api-key-banner input[type="text"]:focus {
-            outline: none;
-            border-color: var(--aqua);
-            box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
-        }
-
         /* --- CATEGORIES TABS --- */
         .category-tabs {
             display: flex;
@@ -379,6 +346,38 @@
             color: var(--aqua);
         }
 
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 15px;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--aqua);
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+        }
+
+        .action-trigger {
+            background: linear-gradient(90deg, var(--aqua-dark), var(--aqua));
+            color: #0b111e;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            font-size: 15px;
+        }
+
+        .action-trigger:hover {
+            opacity: 0.9;
+        }
+
         .result-box {
             margin-top: 25px;
             background: rgba(0,0,0,0.3);
@@ -388,6 +387,7 @@
             display: none;
         }
 
+        /* Fixed Image Rendering Aspect-Ratio to force dynamic auto-crop of letterbox borders */
         .thumb-wrapper {
             max-width: 720px;
             margin: 0 auto;
@@ -479,6 +479,16 @@
             border: 2px dashed rgba(255,255,255,0.1);
             border-radius: 12px;
         }
+        
+        .api-key-banner {
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid orange;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #fbd38d;
+        }
     </style>
 </head>
 <body>
@@ -513,9 +523,8 @@
         </div>
 
         <div class="api-key-banner">
-            <strong>Optional YouTube API V3 Key Configuration</strong>
-            To load exact real metrics instead of calculated estimates, paste a standard Google Developer Key below.
-            <input type="text" id="youtubeApiKey" placeholder="AIzaSy...">
+            <strong>Optional YouTube API V3 Key Configuration:</strong> To load exact real metrics instead of calculated estimates, paste a standard Google Developer Key below.
+            <input type="text" id="youtubeApiKey" placeholder="AIzaSy..." style="margin-top: 8px; padding: 6px 12px; font-size: 12px;">
         </div>
 
         <div class="category-tabs" id="categoryTabs">
@@ -714,6 +723,7 @@
             return videoId;
         }
 
+        // --- THUMBNAIL EXTRACTOR ENGINE ---
         function extractThumbnail() {
             const urlInput = document.getElementById('ytUrl').value.trim();
             const resultBox = document.getElementById('thumbResult');
@@ -732,6 +742,7 @@
             resultBox.style.display = 'block';
         }
 
+        // --- LIVE METRICS FETCHING SYSTEM ---
         async function analyzeVideoData() {
             const val = document.getElementById('videoLinkInput').value.trim();
             const apiKey = document.getElementById('youtubeApiKey').value.trim();
@@ -742,6 +753,7 @@
                 return;
             }
 
+            // Scenario A: User added an official API Key to read 100% accurate real data directly from Google
             if (apiKey) {
                 try {
                     const res = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${videoId}&key=${apiKey}`);
@@ -759,6 +771,7 @@
                         document.getElementById('vLikes').textContent = likes.toLocaleString();
                         document.getElementById('vDesc').textContent = desc;
 
+                        // Advanced Calculations based directly on Real metrics
                         document.getElementById('vReach').textContent = Math.floor(views * 2.5).toLocaleString();
                         document.getElementById('vSubs').textContent = "+" + Math.floor(views * 0.012).toLocaleString();
                         document.getElementById('vHype').textContent = Math.min(Math.max(Math.floor((likes / views) * 1000), 40), 99) + "%";
@@ -773,6 +786,7 @@
                 }
             }
 
+            // Scenario B: Fallback metadata extraction
             try {
                 const response = await fetch(`https://noembed.com/embed?url=https://www.youtube.com/watch?v=${videoId}`);
                 const data = await response.json();
@@ -800,6 +814,7 @@
             document.getElementById('analysisResult').style.display = 'block';
         }
 
+        // --- MUSIC FINDER AND SOURCE SYNC ---
         async function findVideoMusicLink() {
             const input = document.getElementById('musicTrackLink').value.trim();
             const apiKey = document.getElementById('youtubeApiKey').value.trim();
