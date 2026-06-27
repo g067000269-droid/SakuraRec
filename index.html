@@ -35,33 +35,6 @@
             overflow-x: hidden;
         }
 
-        /* --- SAKURA PETAL FALL EFFECT --- */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            background-image: 
-                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="%23ffb7c5"><path d="M10,0 C12,5 18,8 15,13 C12,18 7,20 5,15 C3,10 6,3 10,0 Z"/></svg>'),
-                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="%23ff8da1"><path d="M10,0 C13,4 19,7 16,12 C13,17 8,19 5,14 C2,9 5,4 10,0 Z"/></svg>');
-            background-size: 25px 25px, 18px 18px;
-            animation: cherryBlossomFall 12s linear infinite;
-            opacity: 0.4;
-        }
-
-        @keyframes cherryBlossomFall {
-            0% {
-                background-position: 0px 0px, 0px 0px;
-            }
-            100% {
-                background-position: 200px 1000px, -100px 800px;
-            }
-        }
-
         /* --- HEADER & NAV --- */
         header {
             background: rgba(26, 15, 18, 0.8);
@@ -99,11 +72,26 @@
             min-width: 250px;
             display: flex;
             align-items: center;
+            gap: 12px;
+        }
+
+        .search-icon-img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            opacity: 0.8;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+
+        .search-box:focus-within .search-icon-img {
+            opacity: 1;
+            transform: scale(1.05);
         }
 
         .search-box input {
-            width: 100%;
-            padding: 12px 20px 12px 50px;
+            flex: 1;
+            padding: 12px 20px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 183, 197, 0.25);
             border-radius: 50px;
@@ -118,22 +106,6 @@
             border-color: var(--sakura);
             background: rgba(255, 255, 255, 0.12);
             box-shadow: 0 0 20px rgba(255, 183, 197, 0.4), inset 0 0 10px rgba(255, 183, 197, 0.1);
-        }
-
-        .search-box::before {
-            content: '';
-            position: absolute;
-            left: 18px;
-            width: 20px;
-            height: 20px;
-            background: url('https://tse1.mm.bing.net/th/id/OIP.NOwn4yvrr_mhX6F4PW-FlwHaHa?r=0&cb=thumbexpctl1&rs=1&pid=ImgDetMain&o=7&rm=3') center/contain no-repeat;
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        .search-box:focus-within::before {
-            opacity: 1;
         }
 
         .actions-wrapper {
@@ -457,16 +429,6 @@
             border: 2px dashed rgba(255,255,255,0.1);
             border-radius: 12px;
         }
-        
-        .api-key-banner {
-            background: rgba(255, 165, 0, 0.1);
-            border: 1px solid orange;
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 20px;
-            font-size: 13px;
-            color: #fbd38d;
-        }
     </style>
 </head>
 <body>
@@ -476,6 +438,7 @@
             <div class="logo">SakuraHub</div>
             
             <div class="search-box">
+                <img class="search-icon-img" src="https://tse1.mm.bing.net/th/id/OIP.NOwn4yvrr_mhX6F4PW-FlwHaHa?r=0&cb=thumbexpctl1&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Search">
                 <input type="text" id="toolSearch" placeholder="Search For Tools, Editing Tutorials..." onkeyup="filterTools()">
             </div>
 
@@ -500,11 +463,6 @@
     <div class="container">
         <div class="hero-title">
             <h1>Sakura <span>Dashboard</span></h1>
-        </div>
-
-        <div class="api-key-banner">
-            <strong>Optional YouTube API V3 Key Configuration:</strong> To load exact real metrics instead of calculated estimates, paste a standard Google Developer Key below.
-            <input type="text" id="youtubeApiKey" placeholder="AIzaSy..." style="margin-top: 8px; padding: 6px 12px; font-size: 12px;">
         </div>
 
         <div class="category-tabs" id="categoryTabs">
