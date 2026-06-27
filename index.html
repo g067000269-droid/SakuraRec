@@ -391,43 +391,6 @@
             box-shadow: 0 0 20px rgba(255, 183, 197, 0.8);
         }
 
-        .download-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: linear-gradient(90deg, #25d366, #1ebd5a);
-            color: #fff;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s ease;
-            font-size: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            margin-top: 15px;
-        }
-
-        .download-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 20px rgba(37, 211, 102, 0.6);
-        }
-
-        .download-icon-img {
-            width: 20px;
-            height: 20px;
-            object-fit: contain;
-        }
-
-        .spin-animation {
-            animation: fastSpin 1s linear infinite;
-        }
-
-        @keyframes fastSpin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
         .result-box {
             margin-top: 25px;
             background: rgba(0,0,0,0.3);
@@ -475,7 +438,7 @@
             <div class="logo">SakuraHub</div>
             
             <div class="search-box">
-                <img class="search-icon-img" src="https://www.vhv.rs/dpng/d/8-86639_icon-search-pink-png-transparent-png.png" alt="Search">
+                <img class="search-icon-img" src="https://tse1.mm.bing.net/th/id/OIP.NOwn4yvrr_mhX6F4PW-FlwHaHa?r=0&cb=thumbexpctl1&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Search">
                 <input type="text" id="toolSearch" placeholder="Search For Tools, Editing Tutorials..." onkeyup="filterTools()">
             </div>
 
@@ -522,16 +485,6 @@
                         </div>
                         <p style="font-size:13px; color:#aaa;">Rip and generate 1280x720 video layout frames instantly.</p>
                     </div>
-
-                    <div class="tool-card" data-tags="spotify music downloader mp3 audio grab converter" onclick="openDedicatedTool('spotify-downloader-panel')">
-                        <div class="tool-header">
-                            <div class="tool-icon">
-                                <img src="https://img.freepik.com/premium-vector/camera-icon-photo-camera-icon_564974-1441.jpg?w=2000" alt="Camera Icon">
-                            </div>
-                            <h2>Spotify Downloader</h2>
-                        </div>
-                        <p style="font-size:13px; color:#aaa;">Convert and download Spotify tracks directly to MP3 formats easily.</p>
-                    </div>
                 </div>
             </div>
 
@@ -572,34 +525,11 @@
             </div>
             <button class="action-trigger" onclick="extractThumbnail()">Extract Thumbnail</button>
             
-            <div class="result-box thumb-output" id="thumbResult" style="text-align: center;">
+            <div class="result-box thumb-output" id="thumbResult">
                 <div class="thumb-wrapper">
-                    <img id="thumbImg" src="" alt="Thumbnail Frame Link" crossOrigin="anonymous">
+                    <img id="thumbImg" src="" alt="Thumbnail Frame Link">
                 </div>
                 <div class="thumb-meta">Dimensions: 1280 x 720</div>
-                <button class="download-btn" onclick="downloadThumbnailImage()">
-                    <img id="dlIcon" class="download-icon-img" src="https://tse4.mm.bing.net/th/id/OIP.n6B58DHCvjy5Jemp4mWUSwHaHa?r=0&cb=thumbexpctl1&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Download">
-                    Download Image
-                </button>
-            </div>
-        </div>
-
-        <div id="spotify-downloader-panel" class="dedicated-panel">
-            <button class="back-btn" onclick="closeDedicatedTool()">← Back to Dashboard</button>
-            <div class="panel-title">
-                <div class="tool-icon">
-                    <img src="https://img.freepik.com/premium-vector/camera-icon-photo-camera-icon_564974-1441.jpg?w=2000" alt="Camera Icon">
-                </div>
-                Spotify Downloader
-            </div>
-            <div class="input-group">
-                <label>Spotify Music Link</label>
-                <input type="text" id="spotifyUrl" placeholder="https://open.spotify.com/track/...">
-            </div>
-            <button class="action-trigger" onclick="downloadSpotifyTrack()">Download MP3</button>
-            
-            <div class="result-box" id="spotifyResult">
-                <p id="spotifyStatus" style="text-align: center; font-weight: 600; color: var(--sakura);"></p>
             </div>
         </div>
 
@@ -672,74 +602,6 @@
                 img.src = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
             };
             resultBox.style.display = 'block';
-        }
-
-        function downloadThumbnailImage() {
-            const img = document.getElementById('thumbImg');
-            const icon = document.getElementById('dlIcon');
-            if (!img.src) return;
-
-            icon.classList.add('spin-animation');
-
-            fetch(img.src)
-                .then(response => response.blob())
-                .then(blob => {
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.style.display = 'none';
-                    a.href = url;
-                    a.download = 'SakuraRec.png';
-                    document.body.appendChild(a);
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                    document.body.removeChild(a);
-                    icon.classList.remove('spin-animation');
-                })
-                .catch(() => {
-                    const a = document.createElement('a');
-                    a.style.display = 'none';
-                    a.href = img.src;
-                    a.download = 'SakuraRec.png';
-                    a.target = '_blank';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    setTimeout(() => {
-                        icon.classList.remove('spin-animation');
-                    }, 1000);
-                });
-        }
-
-        // --- SPOTIFY DOWNLOADER ENGINE ---
-        function downloadSpotifyTrack() {
-            const urlInput = document.getElementById('spotifyUrl').value.trim();
-            const resultBox = document.getElementById('spotifyResult');
-            const statusText = document.getElementById('spotifyStatus');
-
-            if (!urlInput.includes('spotify.com/')) {
-                alert('Please input a valid Spotify link.');
-                return;
-            }
-
-            resultBox.style.display = 'block';
-            statusText.innerText = "Analyzing Spotify URL framework and requesting track asset links...";
-
-            setTimeout(() => {
-                statusText.innerText = "Encoding frame sequences directly into audio layout structures (MP3 container)...";
-                setTimeout(() => {
-                    statusText.innerText = "Download Ready! Building localized download pipe streams.";
-                    
-                    const dummyBlob = new Blob(["樱花"], { type: "audio/mp3" });
-                    const downloadUrl = window.URL.createObjectURL(dummyBlob);
-                    const link = document.createElement('a');
-                    link.href = downloadUrl;
-                    link.download = "SakuraAudioTrack.mp3";
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    window.URL.revokeObjectURL(downloadUrl);
-                }, 1500);
-            }, 1500);
         }
     </script>
 </body>
