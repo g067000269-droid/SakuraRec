@@ -1,1 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreatorHub // Aqua Cherry</title>
+    <style>
+        :root {
+            --aqua: #00f2fe;
+            --aqua-dark: #4facfe;
+            --cherry: #ff4e50;
+            --cherry-blossom: #ff9a9e;
+            --bg-dark: #0b111e;
+            --card-bg: rgba(25, 35, 55, 0.65);
+            --text: #f1f5f9;
+        }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                linear-gradient(135deg, rgba(11, 17, 30, 0.95), rgba(20, 10, 25, 0.92)),
+                url('https://wallpapercave.com/wp/wp5111164.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text);
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        /* --- HEADER & NAV --- */
+        header {
+            background: rgba(11, 17, 30, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 2px solid var(--aqua);
+            padding: 15px 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 242, 254, 0.15);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--aqua), var(--cherry-blossom));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            max-width: 450px;
+            min-width: 250px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            border-radius: 50px;
+            color: #fff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--aqua);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+        }
+
+        .actions-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Fancy Social Buttons */
+        .fancy-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 18px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .fancy-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .fancy-btn:hover::before {
+            left: 100%;
+        }
+
+        .fancy-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn-discord {
+            background: linear-gradient(135deg, #5865F2, #404eed);
+            border-bottom: 3px solid #323db3;
+        }
+        .btn-discord:hover {
+            box-shadow: 0 0 15px rgba(88, 101, 242, 0.6);
+        }
+
+        .btn-youtube {
+            background: linear-gradient(135deg, #FF0000, #cc0000);
+            border-bottom: 3px solid #990000;
+        }
+        .btn-youtube:hover {
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+        }
+
+        /* --- MAIN LAYOUT --- */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .hero-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .hero-title h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 78, 80, 0.3);
+        }
+
+        .hero-title span {
+            color: var(--aqua);
+        }
+
+        /* --- TOOLS GRID --- */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .tool-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 154, 158, 0.15);
+            border-radius: 16px;
+            padding: 25px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--cherry-blossom);
+            box-shadow: 0 15px 35px rgba(255, 78, 80, 0.15);
+        }
+
+        .tool-card.search-hidden {
+            display: none !important;
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 15px;
+        }
+
+        .tool-icon {
+            font-size: 28px;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-extract { background: rgba(0, 242, 254, 0.15); color: var(--aqua); }
+        .icon-analyze { background: rgba(255, 78, 80, 0.15); color: var(--cherry); }
+        .icon-music { background: rgba(255, 154, 158, 0.15); color: var(--cherry-blossom); }
+
+        .tool-header h2 {
+            font-size: 1.3rem;
+            color: #fff;
+        }
+
+        /* --- FUNCTIONAL TOOL INTERFACES --- */
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            color: var(--cherry-blossom);
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: var(--aqua);
+        }
+
+        .action-trigger {
+            width: 100%;
+            background: linear-gradient(90deg, var(--aqua-dark), var(--cherry));
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            margin-top: auto;
+        }
+
+        .action-trigger:hover {
+            opacity: 0.9;
+        }
+
+        /* Results Containers */
+        .result-box {
+            margin-top: 15px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 14px;
+            display: none;
+        }
+
+        /* Thumbnail Extract Style */
+        .thumb-output img {
+            width: 100%;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+        .thumb-links a {
+            color: var(--aqua);
+            margin-right: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        /* Video Analysis Layout */
+        .analysis-metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .metric-good { color: #4edf7e; }
+        .metric-warn { color: #fcc419; }
+
+        /* Music Track list */
+        .track-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .track-tag {
+            background: rgba(0, 242, 254, 0.2);
+            color: var(--aqua);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+
+        /* Dropdown Discord Selection Menu */
+        .discord-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background: #151d30;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.4);
+            border-radius: 8px;
+            z-index: 101;
+            border: 1px solid var(--aqua);
+            margin-top: 5px;
+        }
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 13px;
+        }
+        .dropdown-content a:hover {
+            background-color: rgba(0, 242, 254, 0.1);
+            color: var(--aqua);
+        }
+        .discord-dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <div class="logo">CreatorHub</div>
+            
+            <div class="search-box">
+                <input type="text" id="toolSearch" placeholder="Search For Tools, Editing Tutorials..." onkeyup="filterTools()">
+            </div>
+
+            <div class="actions-wrapper">
+                <div class="discord-dropdown">
+                    <button class="fancy-btn btn-discord">Discord Server ▾</button>
+                    <div class="dropdown-content">
+                        <a href="https://discord.gg/PmwDZN73bS" target="_blank">Server #1</a>
+                        <a href="https://discord.gg/V52Y2Vtcm2" target="_blank">Server #2</a>
+                    </div>
+                </div>
+
+                <a href="https://www.youtube.com/@gorillaxd133" target="_blank" class="fancy-btn btn-youtube">
+                    YouTube
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="hero-title">
+            <h1>Aqua Cherry <span>Creator Tools</span></h1>
+        </div>
+
+        <div class="tools-grid">
+            
+            <div class="tool-card" data-tags="thumbnail extractor youtube download image templates">
+                <div class="tool-header">
+                    <div class="tool-icon icon-extract">📸</div>
+                    <div>
+                        <h2>Thumbnail Extractor</h2>
+                        <p style="font-size:12px; color:#aaa;">Grab crisp cover frames fast</p>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>YouTube Video URL</label>
+                    <input type="text" id="ytUrl" placeholder="https://www.youtube.com/watch?v=...">
+                </div>
+                <button class="action-trigger" onclick="extractThumbnail()">Extract Media Assets</button>
+                
+                <div class="result-box thumb-output" id="thumbResult">
+                    <img id="thumbImg" src="" alt="Thumbnail preview">
+                    <div class="thumb-links">
+                        <a id="thumbHD" href="#" target="_blank">HD Quality (1080p)</a>
+                        <a id="thumbSD" href="#" target="_blank">Standard Quality</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-card" data-tags="video analysis titles seo metadata stats hook rating">
+                <div class="tool-header">
+                    <div class="tool-icon icon-analyze">📊</div>
+                    <div>
+                        <h2>Smart Video Analytics</h2>
+                        <p style="font-size:12px; color:#aaa;">Simulate score & optimization strategy</p>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Proposed Video Title</label>
+                    <input type="text" id="videoTitle" placeholder="e.g., I Built a Secret Cherry Blossom base...">
+                </div>
+                <div class="input-group">
+                    <label>Target Content Niche</label>
+                    <select id="videoNiche">
+                        <option value="gaming">Gaming & Let's Plays</option>
+                        <option value="tutorials">Editing Tutorials & Tech</option>
+                        <option value="vlogs">Entertainment & Vlogs</option>
+                    </select>
+                </div>
+                <button class="action-trigger" onclick="analyzeVideoData()">Run Meta Evaluation</button>
+
+                <div class="result-box" id="analysisResult">
+                    <div class="analysis-metric">
+                        <span>Click-Through Potential:</span>
+                        <strong id="metricCtr" class="metric-good">High (8.4%)</strong>
+                    </div>
+                    <div class="analysis-metric">
+                        <span>Title SEO Strength:</span>
+                        <strong id="metricSeo">Optimal</strong>
+                    </div>
+                    <div class="analysis-metric">
+                        <span>Optimization Tip:</span>
+                        <span id="metricTip" style="font-size:12px; text-align:right; max-width:60%;">Keep elements punchy!</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-card" data-tags="music finder tracks audio background audio sync stream beats">
+                <div class="tool-header">
+                    <div class="tool-icon icon-music">🎵</div>
+                    <div>
+                        <h2>Aura Music Finder</h2>
+                        <p style="font-size:12px; color:#aaa;">Source curated vibes for production edits</p>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Select Editing Mood Aesthetic</label>
+                    <select id="musicMood">
+                        <option value="chill">Lo-Fi / Cherry Blossom Chill</option>
+                        <option value="hype">Hyperpop / High Energy Gaming</option>
+                        <option value="cinematic">Ambient Synth / Aqua Cinematic</option>
+                    </select>
+                </div>
+                <button class="action-trigger" onclick="findVibeTracks()">Query Audio Repositories</button>
+
+                <div class="result-box" id="musicResult">
+                    <p style="font-size: 11px; color:#888; margin-bottom:8px;">Suggested DMCA-Safe Soundtracks:</p>
+                    <div id="tracksContainer">
+                        </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // --- SEARCH FILTER FUNCTIONALITY ---
+        function filterTools() {
+            const input = document.getElementById('toolSearch').value.toLowerCase();
+            const cards = document.querySelectorAll('.tool-card');
+            
+            cards.forEach(card => {
+                const searchTags = card.getAttribute('data-tags');
+                if (searchTags.includes(input)) {
+                    card.classList.remove('search-hidden');
+                } else {
+                    card.classList.add('search-hidden');
+                }
+            });
+        }
+
+        // --- TOOL 1: THUMBNAIL EXTRACTOR ENGINE ---
+        function extractThumbnail() {
+            const urlInput = document.getElementById('ytUrl').value.trim();
+            const resultBox = document.getElementById('thumbResult');
+            const img = document.getElementById('thumbImg');
+            const hdLink = document.getElementById('thumbHD');
+            const sdLink = document.getElementById('thumbSD');
+
+            let videoId = '';
+            
+            // Standard and Short URL parser logic
+            if (urlInput.includes('youtube.com/watch?v=')) {
+                videoId = urlInput.split('v=')[1].split('&')[0];
+            } else if (urlInput.includes('youtu.be/')) {
+                videoId = urlInput.split('youtu.be/')[1].split('?')[0];
+            } else if (urlInput.includes('youtube.com/shorts/')) {
+                videoId = urlInput.split('/shorts/')[1].split('?')[0];
+            } else {
+                alert('Please provide a valid YouTube share, desktop, or Short video URL.');
+                return;
+            }
+
+            if(videoId) {
+                const maxResUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+                const mqResUrl = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+                
+                img.src = maxResUrl;
+                hdLink.href = maxResUrl;
+                sdLink.href = mqResUrl;
+                
+                resultBox.style.display = 'block';
+            }
+        }
+
+        // --- TOOL 2: VIDEO ANALYSIS SIMULATOR ---
+        function analyzeVideoData() {
+            const title = document.getElementById('videoTitle').value.trim();
+            const niche = document.getElementById('videoNiche').value;
+            const resultBox = document.getElementById('analysisResult');
+            
+            if(!title) {
+                alert('Please feed a concept title structural line item to parse!');
+                return;
+            }
+
+            const ctr = document.getElementById('metricCtr');
+            const seo = document.getElementById('metricSeo');
+            const tip = document.getElementById('metricTip');
+
+            // Programmatic scoring matrix based on structural properties
+            if (title.length < 20) {
+                ctr.textContent = "Moderate (4.2%)";
+                ctr.className = "metric-warn";
+                seo.textContent = "Under-optimized";
+                tip.textContent = "Title is brief. Append search keywords or emotional spikes.";
+            } else if (title.toLowerCase().includes('how to') || title.toLowerCase().includes('secret') || title.includes('!')) {
+                ctr.textContent = "Excellent (9.1%)";
+                ctr.className = "metric-good";
+                seo.textContent = "High Ranking Potential";
+                tip.textContent = "High dynamic words detected. Pairs incredibly with visual patterns.";
+            } else {
+                ctr.textContent = "Balanced (6.5%)";
+                ctr.className = "metric-good";
+                seo.textContent = "Stable Indexing";
+                tip.textContent = "Good title. Try incorporating a power word like 'Crazy' or 'Ultimate'.";
+            }
+
+            resultBox.style.display = 'block';
+        }
+
+        // --- TOOL 3: AUDIO SYNC MUSIC DATABASE ---
+        function findVibeTracks() {
+            const mood = document.getElementById('musicMood').value;
+            const resultBox = document.getElementById('musicResult');
+            const container = document.getElementById('tracksContainer');
+            
+            container.innerHTML = ''; // Fresh buffer clear
+
+            const audioLibrary = {
+                chill: [
+                    { name: "Sakura Drift", tags: "Lofi Beats / 72 BPM" },
+                    { name: "Neon Petals", tags: "Chillhop / 80 BPM" },
+                    { name: "Midnight Tea", tags: "Acoustic Warmth" }
+                ],
+                hype: [
+                    { name: "Gorilla Surge", tags: "Hyper-trap / 155 BPM" },
+                    { name: "Aqua Blast FX", tags: "Glitchcore Synth" },
+                    { name: "Velocity Strike", tags: "Phonk / 130 BPM" }
+                ],
+                cinematic: [
+                    { name: "Abyssal Glow", tags: "Ambient Pad / Drone" },
+                    { name: "Cherry Blossoms in Rain", tags: "Orchestral Emotional" },
+                    { name: "Deep Dive Horizon", tags: "Cyber Synthwave" }
+                ]
+            };
+
+            const selectedTracks = audioLibrary[mood] || [];
+            
+            selectedTracks.forEach(track => {
+                const trackDiv = document.createElement('div');
+                trackDiv.className = 'track-item';
+                trackDiv.innerHTML = `
+                    <span>📁 <strong>${track.name}</strong></span>
+                    <span class="track-tag">${track.tags}</span>
+                `;
+                container.appendChild(trackDiv);
+            });
+
+            resultBox.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
