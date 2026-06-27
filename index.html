@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CreatorHub // Aqua Theme</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --aqua: #00f2fe;
@@ -111,7 +110,6 @@
             border: none;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            gap: 8px;
         }
 
         .fancy-btn::before {
@@ -178,7 +176,7 @@
             color: var(--aqua);
         }
         .discord-dropdown:hover .dropdown-content {
-            display: none;
+            display: block;
         }
 
         /* --- MAIN LAYOUT --- */
@@ -448,9 +446,6 @@
             display: block;
             margin-bottom: 4px;
         }
-        .info-row span {
-            word-break: break-all;
-        }
         .title-rating {
             display: inline-block;
             background: rgba(0, 242, 254, 0.15);
@@ -507,12 +502,16 @@
             </div>
 
             <div class="actions-wrapper">
-                <a href="https://discord.gg/PmwDZN73bS" target="_blank" class="fancy-btn btn-discord">
-                    <i class="fa-brands fa-discord"></i> Discord Server
-                </a>
+                <div class="discord-dropdown">
+                    <button class="fancy-btn btn-discord">Discord Server ▾</button>
+                    <div class="dropdown-content">
+                        <a href="https://discord.gg/PmwDZN73bS" target="_blank">Server #1</a>
+                        <a href="https://discord.gg/V52Y2Vtcm2" target="_blank">Server #2</a>
+                    </div>
+                </div>
 
                 <a href="https://www.youtube.com/@gorillaxd133" target="_blank" class="fancy-btn btn-youtube">
-                    <i class="fa-brands fa-youtube"></i> YouTube
+                    YouTube
                 </a>
             </div>
         </div>
@@ -525,7 +524,7 @@
 
         <div class="api-key-banner">
             <strong>Optional YouTube API V3 Key Configuration:</strong> To load exact real metrics instead of calculated estimates, paste a standard Google Developer Key below.
-            <input type="text" id="youtubeApiKey" placeholder="AIzaSy..." value="AIzaSyA8B3c7D6e5F4g3H2i1J0k9L8m7N6o5P4q" style="margin-top: 8px; padding: 6px 12px; font-size: 12px;">
+            <input type="text" id="youtubeApiKey" placeholder="AIzaSy..." style="margin-top: 8px; padding: 6px 12px; font-size: 12px;">
         </div>
 
         <div class="category-tabs" id="categoryTabs">
@@ -782,7 +781,7 @@
                         document.getElementById('analysisResult').style.display = 'block';
                         return;
                     }
-                </div> catch(e) {
+                } catch(e) {
                     console.error("API error, switching to fallback", e);
                 }
             }
