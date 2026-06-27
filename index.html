@@ -648,13 +648,28 @@
             const imgSrc = document.getElementById('thumbImg').src;
             if (!imgSrc) return;
             
-            const a = document.createElement('a');
-            a.href = imgSrc;
-            a.download = 'youtube_thumbnail.jpg';
-            a.target = '_blank';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            fetch(imgSrc)
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'sakurahub.png';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(() => {
+                    // Fallback to open tab in case of strict CORS restrictions on client environment
+                    const a = document.createElement('a');
+                    a.href = imgSrc;
+                    a.download = 'sakurahub.png';
+                    a.target = '_blank';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                });
         }
     </script>
 </body>
