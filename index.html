@@ -184,6 +184,16 @@
             box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
         }
 
+        .btn-checkit {
+            background: linear-gradient(135deg, var(--sakura-dark), #e04a70);
+            border-bottom: 3px solid #b83252;
+            width: 100%;
+            margin-top: auto;
+        }
+        .btn-checkit:hover {
+            box-shadow: 0 0 20px var(--sakura-glow);
+        }
+
         .btn-download {
             background: linear-gradient(135deg, var(--sakura-dark), #e04a70);
             border-bottom: 3px solid #b83252;
@@ -285,10 +295,10 @@
             box-shadow: 0 2px 10px var(--sakura-glow);
         }
 
-        /* --- TOOLS GRID --- */
+        /* --- TOOLS & TUTORIALS GRID --- */
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
         }
 
@@ -342,6 +352,51 @@
         .tool-header h2 {
             font-size: 1.3rem;
             color: var(--text);
+        }
+
+        /* --- TUTORIAL CARD EXTRAS --- */
+        .tutorial-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 117, 151, 0.15);
+            border-radius: 16px;
+            padding: 18px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 30px rgba(255, 117, 151, 0.05);
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .tutorial-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--sakura-dark);
+            box-shadow: 0 18px 40px var(--sakura-glow);
+        }
+
+        .tutorial-thumb {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 1px solid rgba(255, 117, 151, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .tutorial-card:hover .tutorial-thumb {
+            transform: scale(1.02);
+        }
+
+        .tutorial-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 42px;
         }
 
         /* --- DEDICATED TOOL VIEW PANELS --- */
@@ -816,9 +871,67 @@
             </div>
 
             <div id="panel-tutorials" class="category-panel">
-                <div class="placeholder-content">
-                    <h3>Editing Tutorials Hub</h3>
-                    <p style="margin-top:10px;">Premiere Pro, After Effects, and design workflows coming soon.</p>
+                <div class="tools-grid">
+                    <!-- Tutorial Video 1 -->
+                    <div class="tutorial-card" data-tags="tutorial AMV edits editing workflow">
+                        <img class="tutorial-thumb" src="https://img.youtube.com/vi/EsV4ttbF8gU/maxresdefault.jpg" alt="Tutorial Thumbnail">
+                        <div class="tutorial-title">How To make AMV on phone / Alight Motion AMV Tutorial</div>
+                        <a href="https://youtu.be/EsV4ttbF8gU?si=eaI-gKjwuiw2Ak0L" target="_blank" class="fancy-btn btn-checkit">Check It</a>
+                    </div>
+                    <!-- Tutorial Video 2 -->
+                    <div class="tutorial-card" data-tags="tutorial flow edit graphs composition">
+                        <img class="tutorial-thumb" src="https://img.youtube.com/vi/6oGgYypx00o/maxresdefault.jpg" alt="Tutorial Thumbnail">
+                        <div class="tutorial-title">The Only Flow Tutorial You Need | Alight motion flow tutorial</div>
+                        <a href="https://youtu.be/6oGgYypx00o?si=HL752SfDUUr0FOMb" target="_blank" class="fancy-btn btn-checkit">Check It</a>
+                    </div>
+                    <!-- Tutorial Video 3 -->
+                    <div class="tutorial-card" data-tags="tutorial smooth zoom transitions alight motion">
+                        <img class="tutorial-thumb" src="https://img.youtube.com/vi/HoiYr6eQexw/maxresdefault.jpg" alt="Tutorial Thumbnail">
+                        <div class="tutorial-title">Smooth Zoom Transition Tutorial in Alight Motion</div>
+                        <a href="https://youtu.be/HoiYr6eQexw?si=BbXqSDmYk3SpbM4J" target="_blank" class="fancy-btn btn-checkit">Check It</a>
+                    </div>
+                    <!-- Tutorial Video 4 -->
+                    <div class="tutorial-card" data-tags="tutorial sound design editing audio fx">
+                        <img class="tutorial-thumb" src="https://img.youtube.com/vi/oUlpbue-Gw0/maxresdefault.jpg" alt="Tutorial Thumbnail">
+                        <div class="tutorial-title">Ultimate Sound Design Tutorial for Anime Edits</div>
+                        <a href="https://youtu.be/oUlpbue-Gw0?si=kLvMuH93cwMsT66B" target="_blank" class="fancy-btn btn-checkit">Check It</a>
+                    </div>
+                    <!-- Tutorial Video 5 -->
+                    <div class="tutorial-card" data-tags="tutorial glow settings visual effects effects">
+                        <img class="tutorial-thumb" src="https://img.youtube.com/vi/zZZ4kkmFP0c/maxresdefault.jpg" alt="Tutorial Thumbnail">
+                        <div class="tutorial-title">How To Make Clean Glow in Alight Motion</div>
+                        <a href="https://youtu.be/zZZ4kkmFP0c?si=dqPDOOkSowRYmRlC" target="_blank" class="fancy-btn btn-checkit">Check It</a>
+                    </div>
+                    <!-- Tutorial Video 6 -->
+                    <div class="tutorial-card" data-tags="tutorial velocity sync speed ramp">
+                        <img class="tutorial-thumb" src="https://img.youtube.com/vi/xmfSCKV7qUE/maxresdefault.jpg" alt="Tutorial Thumbnail">
+                        <div class="tutorial-title">Perfect Velocity / Speed Ramp Tutorial | Alight Motion</div>
+                        <a href="https://youtu.be/xmfSCKV7qUE?si=NsvMAwiHvzX32FbQ" target="_blank" class="fancy-btn btn-checkit">Check It</a>
+                    </div>
+                    <!-- Tutorial Video 7 -->
+                    <div class="tutorial-card" data-tags="tutorial color correction cc styling grading">
+                        <img class="tutorial-thumb" src="https://img.youtube.com/vi/MMdbV98DnrU/maxresdefault.jpg" alt="Tutorial Thumbnail">
+                        <div class="tutorial-title">Best 4K Color Correction Tutorial for Anime Edits</div>
+                        <a href="https://youtu.be/MMdbV98DnrU?si=lQB_YFdRR6NV1kDk" target="_blank" class="fancy-btn btn-checkit">Check It</a>
+                    </div>
+                    <!-- Tutorial Video 8 -->
+                    <div class="tutorial-card" data-tags="tutorial shakes effects camera movement mbl">
+                        <img class="tutorial-thumb" src="https://img.youtube.com/vi/SAOm9_hY39I/maxresdefault.jpg" alt="Tutorial Thumbnail">
+                        <div class="tutorial-title">Smooth Shake Tutorial (X & Y) Alight Motion</div>
+                        <a href="https://youtu.be/SAOm9_hY39I?si=jnaGJIV8ztQe1TxZ" target="_blank" class="fancy-btn btn-checkit">Check It</a>
+                    </div>
+                    <!-- Tutorial Video 9 -->
+                    <div class="tutorial-card" data-tags="tutorial text effects typography fonts anime">
+                        <img class="tutorial-thumb" src="https://img.youtube.com/vi/o2hX3c3A5o8/maxresdefault.jpg" alt="Tutorial Thumbnail">
+                        <div class="tutorial-title">Clean Text Animation & Typography Tutorial</div>
+                        <a href="https://youtu.be/o2hX3c3A5o8?si=hBuYGzZlkDQjgoJz" target="_blank" class="fancy-btn btn-checkit">Check It</a>
+                    </div>
+                    <!-- Tutorial Video 10 -->
+                    <div class="tutorial-card" data-tags="tutorial quality render upscale capping">
+                        <img class="tutorial-thumb" src="https://img.youtube.com/vi/RmMpeXWP3I8/maxresdefault.jpg" alt="Tutorial Thumbnail">
+                        <div class="tutorial-title">How To Export in High Quality 4K Alight Motion Settings</div>
+                        <a href="https://youtu.be/RmMpeXWP3I8?si=nZEzpLhjfoWw5vXl" target="_blank" class="fancy-btn btn-checkit">Check It</a>
+                    </div>
                 </div>
             </div>
 
@@ -855,7 +968,6 @@
                                 <div class="time-counter-lbl" id="durationLbl">0:00</div>
                             </div>
 
-                            <!-- Added Volume Layout Module Elements -->
                             <div class="volume-control-layout">
                                 <svg class="volume-icon-svg" viewBox="0 0 24 24">
                                     <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
@@ -877,7 +989,6 @@
 
                         <div class="playlist-header">Select a Track</div>
                         
-                        <!-- Renamed tabs layout selector -->
                         <div class="sub-category-tabs">
                             <button class="sub-tab-btn active" id="subTab1" onclick="switchSubCategory(1)">1</button>
                             <button class="sub-tab-btn" id="subTab2" onclick="switchSubCategory(2)">2</button>
@@ -924,7 +1035,6 @@
 
     </div>
 
-    <!-- Background global node initialized with the first track -->
     <audio id="globalAudioNode" src="https://cdn.discordapp.com/attachments/1503422943512891470/1520724678564384938/MACE.mp3?ex=6a423cb9&is=6a40eb39&hm=2eadea7705f66178f7e2b840315761e6da409738060a03e658b5887092cd07a4&" preload="metadata"></audio>
 
     <script>
@@ -939,7 +1049,6 @@
         const volumeSlider = document.getElementById('volumeSlider');
         const volumeValLbl = document.getElementById('volumeValLbl');
 
-        // Multi-Sub-Category Tracklists Architecture
         const musicDatabase = {
             1: [
                 { title: "MACE", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724678564384938/MACE.mp3?ex=6a423cb9&is=6a40eb39&hm=2eadea7705f66178f7e2b840315761e6da409738060a03e658b5887092cd07a4&" },
@@ -969,7 +1078,6 @@
         let currentSubCategory = 1;
         let currentTrackIndex = 0;
 
-        // Render playlist rows depending on selected subcategory
         function renderPlaylist() {
             playlistContainer.innerHTML = '';
             const activeTracks = musicDatabase[currentSubCategory];
@@ -1037,12 +1145,25 @@
 
         function filterTools() {
             const input = document.getElementById('toolSearch').value.toLowerCase();
-            const cards = document.querySelectorAll('.tool-card');
-            cards.forEach(card => {
+            
+            // Filter normal tool cards
+            const toolCards = document.querySelectorAll('.tool-card');
+            toolCards.forEach(card => {
                 const searchTags = card.getAttribute('data-tags');
-                if (searchTags.includes(input)) {
+                if (searchTags && searchTags.includes(input)) {
                     card.classList.remove('search-hidden');
-                } else {
+                } else if (searchTags) {
+                    card.classList.add('search-hidden');
+                }
+            });
+
+            // Filter tutorial cards
+            const tutorialCards = document.querySelectorAll('.tutorial-card');
+            tutorialCards.forEach(card => {
+                const searchTags = card.getAttribute('data-tags');
+                if (searchTags && searchTags.includes(input)) {
+                    card.classList.remove('search-hidden');
+                } else if (searchTags) {
                     card.classList.add('search-hidden');
                 }
             });
@@ -1122,7 +1243,6 @@
             }
         }
 
-        // Adjust Volume Control Logic Engine
         function adjustVolumeStream() {
             const targetVal = volumeSlider.value;
             audioNode.volume = targetVal / 100;
