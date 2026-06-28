@@ -464,7 +464,7 @@
             backdrop-filter: blur(8px);
             box-shadow: 0 10px 30px rgba(255, 117, 151, 0.08);
             text-align: center;
-            max-width: 600px;
+            max-width: 650px;
             margin: 0 auto;
         }
         .music-header-layout {
@@ -479,6 +479,7 @@
             height: 32px;
             fill: var(--sakura-dark);
             filter: drop-shadow(0 0 5px var(--sakura-glow));
+            flex-shrink: 0;
         }
         .music-title {
             font-size: 1.4rem;
@@ -521,6 +522,7 @@
             color: white;
             transition: all 0.2s;
             box-shadow: 0 4px 10px var(--sakura-glow);
+            flex-shrink: 0;
         }
         .play-toggle-btn:hover {
             transform: scale(1.05);
@@ -575,9 +577,82 @@
             display: inline-flex;
             width: auto;
             padding: 12px 24px;
+            margin-bottom: 25px;
         }
         .btn-music-dl:hover {
             box-shadow: 0 0 25px var(--sakura-glow);
+        }
+
+        /* --- PLAYLIST STYLING --- */
+        .playlist-header {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--sakura-dark);
+            text-align: left;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 117, 151, 0.2);
+            padding-bottom: 5px;
+        }
+
+        .playlist-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 240px;
+            overflow-y: auto;
+            padding-right: 5px;
+            text-align: left;
+        }
+
+        .playlist-wrapper::-webkit-scrollbar {
+            width: 6px;
+        }
+        .playlist-wrapper::-webkit-scrollbar-track {
+            background: rgba(255, 117, 151, 0.05);
+            border-radius: 10px;
+        }
+        .playlist-wrapper::-webkit-scrollbar-thumb {
+            background: rgba(255, 117, 151, 0.3);
+            border-radius: 10px;
+        }
+        .playlist-wrapper::-webkit-scrollbar-thumb:hover {
+            background: var(--sakura-dark);
+        }
+
+        .playlist-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 117, 151, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .playlist-item:hover {
+            background: rgba(255, 117, 151, 0.1);
+            border-color: var(--sakura-dark);
+            transform: translateX(3px);
+        }
+
+        .playlist-item.active-track {
+            background: linear-gradient(90deg, rgba(255, 117, 151, 0.2), transparent);
+            border-left: 4px solid var(--sakura-dark);
+            font-weight: 700;
+            color: var(--sakura-dark);
+        }
+
+        .track-index {
+            font-size: 12px;
+            color: var(--text-muted);
+            width: 18px;
         }
     </style>
 </head>
@@ -605,7 +680,7 @@
 
                 <a href="https://www.youtube.com/@gorillaxd133" target="_blank" class="fancy-btn btn-youtube">
                     <svg viewBox="0 0 24 24">
-                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545( 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93 .502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                     </svg>
                     YouTube
                 </a>
@@ -663,7 +738,7 @@
                             <circle cx="6" cy="18" r="3"></circle>
                             <circle cx="18" cy="16" r="3"></circle>
                         </svg>
-                        <div class="music-title">Masked Dedede - Super Smash Bros. Ultimate</div>
+                        <div class="music-title" id="activeTrackTitle">MACE</div>
                     </div>
                     <div class="music-subtitle">Format: High Quality Audio Tracks (MP3)</div>
                     
@@ -687,8 +762,12 @@
                             <polyline points="7 10 12 15 17 10"></polyline>
                             <line x1="12" y1="15" x2="12" y2="3"></line>
                         </svg>
-                        Download Music
+                        Download Current Track
                     </button>
+
+                    <div class="playlist-header">Select a Track</div>
+                    <div class="playlist-wrapper" id="playlistContainer">
+                        </div>
                 </div>
             </div>
 
@@ -726,7 +805,7 @@
 
     </div>
 
-    <audio id="globalAudioNode" src="https://cdn.discordapp.com/attachments/1503422943512891470/1520422904158879854/Masked_Dedede_-_Super_Smash_Bros_Ultimate.mp3?ex=6a4123ac&is=6a3fd22c&hm=60c6ef1b552cf0ab9c404141d591f7650bf5d483415c10ad7db8c7b966ea25c5&" preload="metadata"></audio>
+    <audio id="globalAudioNode" src="https://cdn.discordapp.com/attachments/1503422943512891470/1520724678564384938/MACE.mp3?ex=6a423cb9&is=6a40eb39&hm=2eadea7705f66178f7e2b840315761e6da409738060a03e658b5887092cd07a4&" preload="metadata"></audio>
 
     <script>
         const audioNode = document.getElementById('globalAudioNode');
@@ -735,7 +814,57 @@
         const timeline = document.getElementById('audioTimeline');
         const currentLbl = document.getElementById('currentTimeLbl');
         const durationLbl = document.getElementById('durationLbl');
+        const activeTrackTitle = document.getElementById('activeTrackTitle');
+        const playlistContainer = document.getElementById('playlistContainer');
 
+        // Tracklist Data Configuration
+        const tracks = [
+            { title: "MACE", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724678564384938/MACE.mp3?ex=6a423cb9&is=6a40eb39&hm=2eadea7705f66178f7e2b840315761e6da409738060a03e658b5887092cd07a4&" },
+            { title: "Army of Angels", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724679046860880/Army_of_Angels.mp3?ex=6a423cb9&is=6a40eb39&hm=4dcfb30d2c1f2beb99375c4774fe23ff0ecc162fe9e623094228be58158e2081&" },
+            { title: "Bubble Beam 4", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724679440994464/Bubble_Beam_4.mp3?ex=6a423cb9&is=6a40eb39&hm=3b2053ef3d7364b9a8494f9576c0c928af1a1195ca9188249aefd5b2ccde2948&" },
+            { title: "Escaping The Void - Ivory", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724679734722731/Escaping_The_Void_-_Ivory.mp3?ex=6a423cb9&is=6a40eb39&hm=e2bfd0b9f9a0c2fa338f75ecd1237bfa3e95730301e4d58c347ad33f3fa0dfe0&" },
+            { title: "Forever Sunset - Deep Space Samurai", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724680225325198/Forever_Sunset_-_Deep_Space_Samurai_Royalty_Free_Music_4.mp3?ex=6a423cb9&is=6a40eb39&hm=30295d6ac03c9d3c7187c0fbfc328a84ff3804236e96ee145d7c3df619956992&" },
+            { title: "On The Knife Future Joust", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724680577650778/On_The_Knife_Future_Joust.mp3?ex=6a423cb9&is=6a40eb39&hm=8c79930bd024b2f9f46ab693490a80ad4e66f2e75a8688b342f89c0c183f7f64&" },
+            { title: "Spy - Spring Gang", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724681097871480/Spy_-_spring_gang.mp3?ex=6a423cb9&is=6a40eb39&hm=22b7269ac9b82076a88af76ae036a01fba6f77b2b8678ae688d4abe8db103aee&" },
+            { title: "Tiger Tracks 4", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724681676820610/Tiger_Tracks_4.mp3?ex=6a423cb9&is=6a40eb39&hm=cab7f4fad49bf6c3ee444a9b52afc8fc4388ad8366cc218d009f3d330a33386d&" },
+            { title: "Weirdness", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724682201104414/Weirdness.mp3?ex=6a423cb9&is=6a40eb39&hm=c2b351e6a6a4cfeda9ee32eb51cc6c39b2db8f5f50a132db01406cdb4ce45506&" }
+        ];
+
+        let currentTrackIndex = 0;
+
+        // Build HTML entries dynamically inside the Playlist
+        function initPlaylist() {
+            playlistContainer.innerHTML = '';
+            tracks.forEach((track, i) => {
+                const row = document.createElement('div');
+                row.className = `playlist-item ${i === currentTrackIndex ? 'active-track' : ''}`;
+                row.onclick = () => selectTrack(i);
+                row.innerHTML = `<span class="track-index">${i + 1}</span> <span>${track.title}</span>`;
+                playlistContainer.appendChild(row);
+            });
+        }
+
+        function selectTrack(index) {
+            currentTrackIndex = index;
+            
+            // Re-render highlight classes
+            document.querySelectorAll('.playlist-item').forEach((item, idx) => {
+                item.classList.toggle('active-track', idx === index);
+            });
+
+            // Swap streams
+            activeTrackTitle.textContent = tracks[index].title;
+            audioNode.src = tracks[index].url;
+            audioNode.load();
+            
+            // Immediate active streaming playback
+            audioNode.play().then(() => {
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+            }).catch(err => console.log("Interaction barrier reached on stream change: ", err));
+        }
+
+        // --- CORE NAVIGATION WORKFLOWS ---
         function switchCategory(category) {
             closeDedicatedTool();
             const tabs = document.querySelectorAll('.tab-btn');
@@ -807,7 +936,6 @@
             downloadBtn.style.display = 'inline-flex';
         }
 
-        // --- DOWNLOAD ACTION HANDLING ---
         function downloadThumbnail() {
             const imgSrc = document.getElementById('thumbImg').src;
             if (!imgSrc) return;
@@ -849,6 +977,7 @@
         }
 
         function formatTimeValue(secs) {
+            if (isNaN(secs)) return "0:00";
             let minutes = Math.floor(secs / 60);
             let seconds = Math.floor(secs % 60);
             if (seconds < 10) seconds = "0" + seconds;
@@ -870,15 +999,20 @@
         }
 
         audioNode.addEventListener('ended', () => {
-            playIcon.style.display = 'block';
-            pauseIcon.style.display = 'none';
-            timeline.value = 0;
-            currentLbl.textContent = "0:00";
+            // Auto-advance loop option
+            if (currentTrackIndex < tracks.length - 1) {
+                selectTrack(currentTrackIndex + 1);
+            } else {
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+                timeline.value = 0;
+                currentLbl.textContent = "0:00";
+            }
         });
 
-        // --- MUSIC DOWNLOAD HANDLING ---
         function downloadMusic() {
             const musicUrl = audioNode.src;
+            const currentTitle = tracks[currentTrackIndex].title.replace(/\s+/g, '_').toLowerCase();
             
             fetch(musicUrl)
                 .then(response => response.blob())
@@ -886,22 +1020,19 @@
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = 'sakurahub_music.mp3';
+                    a.download = `sakurahub_${currentTitle}.mp3`;
                     document.body.appendChild(a);
                     a.click();
                     document.body.removeChild(a);
                     window.URL.revokeObjectURL(url);
                 })
                 .catch(() => {
-                    const a = document.createElement('a');
-                    a.href = musicUrl;
-                    a.download = 'sakurahub_music.mp3';
-                    a.target = '_blank';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
+                    window.open(musicUrl, '_blank');
                 });
         }
+
+        // Run application setup
+        initPlaylist();
     </script>
 </body>
 </html>
