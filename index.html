@@ -270,10 +270,10 @@
             background: rgba(255, 255, 255, 0.5);
             border: 1px solid rgba(255, 117, 151, 0.2);
             color: var(--text);
-            padding: 6px 16px;
+            padding: 6px 20px;
             border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.2s ease;
         }
@@ -483,17 +483,43 @@
             background: rgba(255, 255, 255, 0.4);
         }
 
-        /* --- MUSIC HUB STYLING --- */
+        /* --- MUSIC HUB STYLING WITH TRAIL BLUR EFFECT --- */
+        .music-wrapper-container {
+            position: relative;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        /* White Light Trail Glow Base behind Player */
+        .music-wrapper-container::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            background: linear-gradient(45deg, #ffffff, #f0f0f0, #ffffff, #e6e6e6);
+            border-radius: 20px;
+            z-index: -1;
+            filter: blur(15px);
+            opacity: 0.75;
+            animation: lightTrailPulse 4s linear infinite;
+        }
+
+        @keyframes lightTrailPulse {
+            0% { filter: blur(12px); opacity: 0.7; }
+            50% { filter: blur(18px); opacity: 0.9; }
+            100% { filter: blur(12px); opacity: 0.7; }
+        }
+
         .music-container {
             background: var(--card-bg);
-            border: 1px solid rgba(255, 117, 151, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.6);
             border-radius: 16px;
             padding: 30px;
             backdrop-filter: blur(8px);
-            box-shadow: 0 10px 30px rgba(255, 117, 151, 0.08);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             text-align: center;
-            max-width: 650px;
-            margin: 0 auto;
         }
         .music-header-layout {
             display: flex;
@@ -523,14 +549,15 @@
         
         /* --- PLAYER STYLES --- */
         .audio-player-interface {
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.75);
             border: 1px solid rgba(255, 117, 151, 0.2);
             border-radius: 12px;
-            padding: 15px;
+            padding: 18px;
             margin-bottom: 20px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.6);
         }
         .player-controls-row {
             display: flex;
@@ -599,6 +626,47 @@
             min-width: 35px;
         }
 
+        /* Volume Layout Control Section */
+        .volume-control-layout {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+            padding-top: 4px;
+            border-top: 1px solid rgba(255, 117, 151, 0.1);
+        }
+        .volume-icon-svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--text-muted);
+        }
+        .volume-slider-bar {
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(0, 0, 0, 0.1);
+            height: 5px;
+            border-radius: 5px;
+            outline: none;
+            width: 90px;
+            cursor: pointer;
+        }
+        .volume-slider-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: var(--text-muted);
+            cursor: pointer;
+        }
+        .volume-text-indicator {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            min-width: 32px;
+            text-align: left;
+        }
+
         .btn-music-dl {
             background: linear-gradient(135deg, var(--sakura-dark), #e04a70);
             border-bottom: 3px solid #b83252;
@@ -611,7 +679,7 @@
             box-shadow: 0 0 25px var(--sakura-glow);
         }
 
-        /* --- PLAYLIST STYLING --- */
+        /* --- PLAYLIST STYLING (WHITE-LIST THEME) --- */
         .playlist-header {
             font-size: 14px;
             font-weight: 700;
@@ -649,29 +717,32 @@
             background: var(--sakura-dark);
         }
 
+        /* Dynamic White-List Grid Layout items */
         .playlist-item {
             display: flex;
             align-items: center;
             gap: 12px;
             padding: 10px 14px;
-            background: rgba(255, 255, 255, 0.4);
-            border: 1px solid rgba(255, 117, 151, 0.1);
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.06);
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s ease;
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
             color: var(--text);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
         }
 
         .playlist-item:hover {
-            background: rgba(255, 117, 151, 0.1);
+            background: #fafafa;
             border-color: var(--sakura-dark);
             transform: translateX(3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
         }
 
         .playlist-item.active-track {
-            background: linear-gradient(90deg, rgba(255, 117, 151, 0.2), transparent);
+            background: linear-gradient(90deg, rgba(255, 117, 151, 0.15), #ffffff);
             border-left: 4px solid var(--sakura-dark);
             font-weight: 700;
             color: var(--sakura-dark);
@@ -759,50 +830,62 @@
             </div>
 
             <div id="panel-music" class="category-panel">
-                <div class="music-container">
-                    <div class="music-header-layout">
-                        <svg class="music-icon-svg" viewBox="0 0 24 24">
-                            <path d="M9 18V5l12-2v13"></path>
-                            <circle cx="6" cy="18" r="3"></circle>
-                            <circle cx="18" cy="16" r="3"></circle>
-                        </svg>
-                        <div class="music-title" id="activeTrackTitle">MACE</div>
-                    </div>
-                    <div class="music-subtitle">Format: High Quality Audio Tracks (MP3)</div>
-                    
-                    <div class="audio-player-interface">
-                        <div class="player-controls-row">
-                            <button class="play-toggle-btn" id="playPauseBtn" onclick="toggleAudioStream()">
-                                <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                                <svg id="pauseIcon" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-                            </button>
-                            <div class="time-counter-lbl" id="currentTimeLbl">0:00</div>
-                            <div class="timeline-slider-wrapper">
-                                <input type="range" class="timeline-bar" id="audioTimeline" value="0" min="0" max="100" oninput="seekAudioStream()">
-                            </div>
-                            <div class="time-counter-lbl" id="durationLbl">0:00</div>
+                <div class="music-wrapper-container">
+                    <div class="music-container">
+                        <div class="music-header-layout">
+                            <svg class="music-icon-svg" viewBox="0 0 24 24">
+                                <path d="M9 18V5l12-2v13"></path>
+                                <circle cx="6" cy="18" r="3"></circle>
+                                <circle cx="18" cy="16" r="3"></circle>
+                            </svg>
+                            <div class="music-title" id="activeTrackTitle">MACE</div>
                         </div>
-                    </div>
+                        <div class="music-subtitle">Format: High Quality Audio Tracks (MP3)</div>
+                        
+                        <div class="audio-player-interface">
+                            <div class="player-controls-row">
+                                <button class="play-toggle-btn" id="playPauseBtn" onclick="toggleAudioStream()">
+                                    <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                    <svg id="pauseIcon" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                                </button>
+                                <div class="time-counter-lbl" id="currentTimeLbl">0:00</div>
+                                <div class="timeline-slider-wrapper">
+                                    <input type="range" class="timeline-bar" id="audioTimeline" value="0" min="0" max="100" oninput="seekAudioStream()">
+                                </div>
+                                <div class="time-counter-lbl" id="durationLbl">0:00</div>
+                            </div>
 
-                    <button class="fancy-btn btn-music-dl" onclick="downloadMusic()">
-                        <svg viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"></path>
-                            <polyline points="7 10 12 15 17 10"></polyline>
-                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                        </svg>
-                        Download Current Track
-                    </button>
+                            <!-- Added Volume Layout Module Elements -->
+                            <div class="volume-control-layout">
+                                <svg class="volume-icon-svg" viewBox="0 0 24 24">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                </svg>
+                                <input type="range" class="volume-slider-bar" id="volumeSlider" value="100" min="0" max="100" oninput="adjustVolumeStream()">
+                                <div class="volume-text-indicator" id="volumeValLbl">100%</div>
+                            </div>
+                        </div>
 
-                    <div class="playlist-header">Select a Track</div>
-                    
-                    <!-- Sub-categories wrapper -->
-                    <div class="sub-category-tabs">
-                        <button class="sub-tab-btn active" id="subTab1" onclick="switchSubCategory(1)">Group 1</button>
-                        <button class="sub-tab-btn" id="subTab2" onclick="switchSubCategory(2)">Group 2</button>
-                    </div>
+                        <button class="fancy-btn btn-music-dl" onclick="downloadMusic()">
+                            <svg viewBox="0 0 24 24" style="fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            Download Current Track
+                        </button>
 
-                    <div class="playlist-wrapper" id="playlistContainer">
-                        <!-- Tracks are generated automatically below -->
+                        <div class="playlist-header">Select a Track</div>
+                        
+                        <!-- Renamed tabs layout selector -->
+                        <div class="sub-category-tabs">
+                            <button class="sub-tab-btn active" id="subTab1" onclick="switchSubCategory(1)">1</button>
+                            <button class="sub-tab-btn" id="subTab2" onclick="switchSubCategory(2)">2</button>
+                        </div>
+
+                        <div class="playlist-wrapper" id="playlistContainer">
+                            <!-- Tracks are generated automatically inside this layout white list -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -853,6 +936,8 @@
         const durationLbl = document.getElementById('durationLbl');
         const activeTrackTitle = document.getElementById('activeTrackTitle');
         const playlistContainer = document.getElementById('playlistContainer');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const volumeValLbl = document.getElementById('volumeValLbl');
 
         // Multi-Sub-Category Tracklists Architecture
         const musicDatabase = {
@@ -891,7 +976,6 @@
             
             activeTracks.forEach((track, i) => {
                 const row = document.createElement('div');
-                // Ensure active layout stays glowing if match is exact source-wise
                 const isPlaying = (audioNode.src === track.url);
                 row.className = `playlist-item ${isPlaying ? 'active-track' : ''}`;
                 row.onclick = () => selectTrack(i);
@@ -912,12 +996,10 @@
             currentTrackIndex = index;
             const track = musicDatabase[currentSubCategory][index];
 
-            // Update UI items highlight safely
             document.querySelectorAll('.playlist-item').forEach((item, idx) => {
                 item.classList.toggle('active-track', idx === index);
             });
 
-            // Update Audio Engine elements
             activeTrackTitle.textContent = track.title;
             audioNode.src = track.url;
             audioNode.load();
@@ -1040,6 +1122,13 @@
             }
         }
 
+        // Adjust Volume Control Logic Engine
+        function adjustVolumeStream() {
+            const targetVal = volumeSlider.value;
+            audioNode.volume = targetVal / 100;
+            volumeValLbl.textContent = targetVal + "%";
+        }
+
         function formatTimeValue(secs) {
             if (isNaN(secs)) return "0:00";
             let minutes = Math.floor(secs / 60);
@@ -1076,7 +1165,6 @@
 
         function downloadMusic() {
             const musicUrl = audioNode.src;
-            // Lookup name via matching URL across lists safely
             let titleStr = "track";
             Object.values(musicDatabase).flat().forEach(t => {
                 if(t.url === musicUrl) titleStr = t.title;
@@ -1100,7 +1188,6 @@
                 });
         }
 
-        // Initialize display configuration on mount
         renderPlaylist();
     </script>
 </body>
