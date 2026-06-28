@@ -257,6 +257,34 @@
             display: block;
         }
 
+        /* --- SUB CATEGORIES (MUSIC HUB) --- */
+        .sub-category-tabs {
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .sub-tab-btn {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 117, 151, 0.2);
+            color: var(--text);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .sub-tab-btn:hover, .sub-tab-btn.active {
+            background: var(--sakura-dark);
+            color: #fff;
+            border-color: var(--sakura-dark);
+            box-shadow: 0 2px 10px var(--sakura-glow);
+        }
+
         /* --- TOOLS GRID --- */
         .tools-grid {
             display: grid;
@@ -766,8 +794,16 @@
                     </button>
 
                     <div class="playlist-header">Select a Track</div>
+                    
+                    <!-- Sub-categories wrapper -->
+                    <div class="sub-category-tabs">
+                        <button class="sub-tab-btn active" id="subTab1" onclick="switchSubCategory(1)">Group 1</button>
+                        <button class="sub-tab-btn" id="subTab2" onclick="switchSubCategory(2)">Group 2</button>
+                    </div>
+
                     <div class="playlist-wrapper" id="playlistContainer">
-                        </div>
+                        <!-- Tracks are generated automatically below -->
+                    </div>
                 </div>
             </div>
 
@@ -805,6 +841,7 @@
 
     </div>
 
+    <!-- Background global node initialized with the first track -->
     <audio id="globalAudioNode" src="https://cdn.discordapp.com/attachments/1503422943512891470/1520724678564384938/MACE.mp3?ex=6a423cb9&is=6a40eb39&hm=2eadea7705f66178f7e2b840315761e6da409738060a03e658b5887092cd07a4&" preload="metadata"></audio>
 
     <script>
@@ -817,51 +854,78 @@
         const activeTrackTitle = document.getElementById('activeTrackTitle');
         const playlistContainer = document.getElementById('playlistContainer');
 
-        // Tracklist Data Configuration
-        const tracks = [
-            { title: "MACE", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724678564384938/MACE.mp3?ex=6a423cb9&is=6a40eb39&hm=2eadea7705f66178f7e2b840315761e6da409738060a03e658b5887092cd07a4&" },
-            { title: "Army of Angels", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724679046860880/Army_of_Angels.mp3?ex=6a423cb9&is=6a40eb39&hm=4dcfb30d2c1f2beb99375c4774fe23ff0ecc162fe9e623094228be58158e2081&" },
-            { title: "Bubble Beam 4", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724679440994464/Bubble_Beam_4.mp3?ex=6a423cb9&is=6a40eb39&hm=3b2053ef3d7364b9a8494f9576c0c928af1a1195ca9188249aefd5b2ccde2948&" },
-            { title: "Escaping The Void - Ivory", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724679734722731/Escaping_The_Void_-_Ivory.mp3?ex=6a423cb9&is=6a40eb39&hm=e2bfd0b9f9a0c2fa338f75ecd1237bfa3e95730301e4d58c347ad33f3fa0dfe0&" },
-            { title: "Forever Sunset - Deep Space Samurai", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724680225325198/Forever_Sunset_-_Deep_Space_Samurai_Royalty_Free_Music_4.mp3?ex=6a423cb9&is=6a40eb39&hm=30295d6ac03c9d3c7187c0fbfc328a84ff3804236e96ee145d7c3df619956992&" },
-            { title: "On The Knife Future Joust", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724680577650778/On_The_Knife_Future_Joust.mp3?ex=6a423cb9&is=6a40eb39&hm=8c79930bd024b2f9f46ab693490a80ad4e66f2e75a8688b342f89c0c183f7f64&" },
-            { title: "Spy - Spring Gang", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724681097871480/Spy_-_spring_gang.mp3?ex=6a423cb9&is=6a40eb39&hm=22b7269ac9b82076a88af76ae036a01fba6f77b2b8678ae688d4abe8db103aee&" },
-            { title: "Tiger Tracks 4", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724681676820610/Tiger_Tracks_4.mp3?ex=6a423cb9&is=6a40eb39&hm=cab7f4fad49bf6c3ee444a9b52afc8fc4388ad8366cc218d009f3d330a33386d&" },
-            { title: "Weirdness", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724682201104414/Weirdness.mp3?ex=6a423cb9&is=6a40eb39&hm=c2b351e6a6a4cfeda9ee32eb51cc6c39b2db8f5f50a132db01406cdb4ce45506&" }
-        ];
+        // Multi-Sub-Category Tracklists Architecture
+        const musicDatabase = {
+            1: [
+                { title: "MACE", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724678564384938/MACE.mp3?ex=6a423cb9&is=6a40eb39&hm=2eadea7705f66178f7e2b840315761e6da409738060a03e658b5887092cd07a4&" },
+                { title: "Army of Angels", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724679046860880/Army_of_Angels.mp3?ex=6a423cb9&is=6a40eb39&hm=4dcfb30d2c1f2beb99375c4774fe23ff0ecc162fe9e623094228be58158e2081&" },
+                { title: "Bubble Beam 4", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724679440994464/Bubble_Beam_4.mp3?ex=6a423cb9&is=6a40eb39&hm=3b2053ef3d7364b9a8494f9576c0c928af1a1195ca9188249aefd5b2ccde2948&" },
+                { title: "Escaping The Void - Ivory", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724679734722731/Escaping_The_Void_-_Ivory.mp3?ex=6a423cb9&is=6a40eb39&hm=e2bfd0b9f9a0c2fa338f75ecd1237bfa3e95730301e4d58c347ad33f3fa0dfe0&" },
+                { title: "Forever Sunset - Deep Space Samurai", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724680225325198/Forever_Sunset_-_Deep_Space_Samurai_Royalty_Free_Music_4.mp3?ex=6a423cb9&is=6a40eb39&hm=30295d6ac03c9d3c7187c0fbfc328a84ff3804236e96ee145d7c3df619956992&" },
+                { title: "On The Knife Future Joust", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724680577650778/On_The_Knife_Future_Joust.mp3?ex=6a423cb9&is=6a40eb39&hm=8c79930bd024b2f9f46ab693490a80ad4e66f2e75a8688b342f89c0c183f7f64&" },
+                { title: "Spy - Spring Gang", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724681097871480/Spy_-_spring_gang.mp3?ex=6a423cb9&is=6a40eb39&hm=22b7269ac9b82076a88af76ae036a01fba6f77b2b8678ae688d4abe8db103aee&" },
+                { title: "Tiger Tracks 4", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724681676820610/Tiger_Tracks_4.mp3?ex=6a423cb9&is=6a40eb39&hm=cab7f4fad49bf6c3ee444a9b52afc8fc4388ad8366cc218d009f3d330a33386d&" },
+                { title: "Weirdness", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520724682201104414/Weirdness.mp3?ex=6a423cb9&is=6a40eb39&hm=c2b351e6a6a4cfeda9ee32eb51cc6c39b2db8f5f50a132db01406cdb4ce45506&" }
+            ],
+            2: [
+                { title: "Back to the 80s - Dyalla", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520726317073563718/Back_to_the_80s_-_Dyalla.mp3?ex=6a423e3f&is=6a40ecbf&hm=f1ad37f2a0b4c762ebd5b77d5d9d4200d212153a8d1e9b557f9ca093f19be544&" },
+                { title: "BMO - Dyalla", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520726317426016386/BMO_-_Dyalla.mp3?ex=6a423e3f&is=6a40ecbf&hm=3e80c1999a2c83dc819d24dd2d93783494b94b03649d360d6e460b5372d7934d&" },
+                { title: "Bump - Dyalla", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520726317786599514/Bump_-_Dyalla.mp3?ex=6a423e3f&is=6a40ecbf&hm=6b416291536b41d30f0c6760c5e8f96a29a05a5c596f74709e3d934ac923fd7b&" },
+                { title: "Clean Living - Everet Almond", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520726318092779610/Clean_Living_-_Everet_Almond.mp3?ex=6a423e3f&is=6a40ecbf&hm=a43d788c9a9a015162496275c7bed36421835821fc7589132da3c96e2da1201d&" },
+                { title: "Evil Bodega - Adam MacDougall", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520726318491369583/Evil_Bodega_-_Adam_MacDougall.mp3?ex=6a423e40&is=6a40ecc0&hm=acf88824941f4c0cadd5e7c347e1601e247f9c4dad024ec4c7510c72ab89c0b0&" },
+                { title: "Future Freeway - Adam MacDougall", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520726318927450173/Future_Freeway_-_Adam_MacDougall.mp3?ex=6a423e40&is=6a40ecc0&hm=fb2744d7fa40ae7c648902fdf4a4d9b68a02df7b81607b70a0da4955afad1381&" },
+                { title: "Jay Walking - Everet Almond", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520726319313322047/Jay_Walking_-_Everet_Almond.mp3?ex=6a423e40&is=6a40ecc0&hm=fe7a348651c1e871408bb188aef0ff30f65d141c2a66fd8e1e171850853907c9&" },
+                { title: "Packed - Density & Time", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520726319682551808/Packed_-_Density__Time.mp3?ex=6a423e40&is=6a40ecc0&hm=d2699c0c486b3165c9058e608a998657b3261eb61a7a1f5b23405c7f1a5aa83f&" },
+                { title: "Sesame - Dyalla", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520726320022163567/Sesame_-_Dyalla.mp3?ex=6a423e40&is=6a40ecc0&hm=4e5043f86020c20642b2d2de710b05d93f9ae1e4c04f9d0525ec2b78417ce6a8&" },
+                { title: "Skylander Academy", url: "https://cdn.discordapp.com/attachments/1503422943512891470/1520726320332537936/Skylander_Academy.mp3?ex=6a423e40&is=6a40ecc0&hm=2eb200692809eb87dd67d1c1234c31c20b266146e82ce64ad0dd9832349fb64b&" }
+            ]
+        };
 
+        let currentSubCategory = 1;
         let currentTrackIndex = 0;
 
-        // Build HTML entries dynamically inside the Playlist
-        function initPlaylist() {
+        // Render playlist rows depending on selected subcategory
+        function renderPlaylist() {
             playlistContainer.innerHTML = '';
-            tracks.forEach((track, i) => {
+            const activeTracks = musicDatabase[currentSubCategory];
+            
+            activeTracks.forEach((track, i) => {
                 const row = document.createElement('div');
-                row.className = `playlist-item ${i === currentTrackIndex ? 'active-track' : ''}`;
+                // Ensure active layout stays glowing if match is exact source-wise
+                const isPlaying = (audioNode.src === track.url);
+                row.className = `playlist-item ${isPlaying ? 'active-track' : ''}`;
                 row.onclick = () => selectTrack(i);
                 row.innerHTML = `<span class="track-index">${i + 1}</span> <span>${track.title}</span>`;
                 playlistContainer.appendChild(row);
             });
         }
 
+        function switchSubCategory(subId) {
+            currentSubCategory = subId;
+            document.querySelectorAll('.sub-tab-btn').forEach((btn, idx) => {
+                btn.classList.toggle('active', (idx + 1) === subId);
+            });
+            renderPlaylist();
+        }
+
         function selectTrack(index) {
             currentTrackIndex = index;
-            
-            // Re-render highlight classes
+            const track = musicDatabase[currentSubCategory][index];
+
+            // Update UI items highlight safely
             document.querySelectorAll('.playlist-item').forEach((item, idx) => {
                 item.classList.toggle('active-track', idx === index);
             });
 
-            // Swap streams
-            activeTrackTitle.textContent = tracks[index].title;
-            audioNode.src = tracks[index].url;
+            // Update Audio Engine elements
+            activeTrackTitle.textContent = track.title;
+            audioNode.src = track.url;
             audioNode.load();
             
-            // Immediate active streaming playback
             audioNode.play().then(() => {
                 playIcon.style.display = 'none';
                 pauseIcon.style.display = 'block';
-            }).catch(err => console.log("Interaction barrier reached on stream change: ", err));
+            }).catch(err => console.log("Interaction restriction bypassed: ", err));
         }
 
         // --- CORE NAVIGATION WORKFLOWS ---
@@ -999,8 +1063,8 @@
         }
 
         audioNode.addEventListener('ended', () => {
-            // Auto-advance loop option
-            if (currentTrackIndex < tracks.length - 1) {
+            const activeList = musicDatabase[currentSubCategory];
+            if (currentTrackIndex < activeList.length - 1) {
                 selectTrack(currentTrackIndex + 1);
             } else {
                 playIcon.style.display = 'block';
@@ -1012,7 +1076,12 @@
 
         function downloadMusic() {
             const musicUrl = audioNode.src;
-            const currentTitle = tracks[currentTrackIndex].title.replace(/\s+/g, '_').toLowerCase();
+            // Lookup name via matching URL across lists safely
+            let titleStr = "track";
+            Object.values(musicDatabase).flat().forEach(t => {
+                if(t.url === musicUrl) titleStr = t.title;
+            });
+            const formattedTitle = titleStr.replace(/\s+/g, '_').toLowerCase();
             
             fetch(musicUrl)
                 .then(response => response.blob())
@@ -1020,7 +1089,7 @@
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = `sakurahub_${currentTitle}.mp3`;
+                    a.download = `sakurahub_${formattedTitle}.mp3`;
                     document.body.appendChild(a);
                     a.click();
                     document.body.removeChild(a);
@@ -1031,8 +1100,8 @@
                 });
         }
 
-        // Run application setup
-        initPlaylist();
+        // Initialize display configuration on mount
+        renderPlaylist();
     </script>
 </body>
 </html>
